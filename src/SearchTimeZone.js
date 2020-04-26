@@ -10,10 +10,21 @@ class SearchTimeZone extends Component{
     }
     componentDidMount(){
         this.getTimeZoneList();
+        const searchForm = document.getElementById('search');
+        searchForm.addEventListener('click',(event)=>{
+            if(event.target.localName === 'li'){
+                console.log(event.target.firstChild.innerText);
+                const text = event.target.firstChild.innerText;
+                const updateSelection = (selection)=>{
+                    this.props.userSelectionProp(selection);
+                }
+                updateSelection(text);
+            }
+        });
     }
     render(){
         return(
-            <form className="search-form" method="post" action="/form" autoComplete="off">
+            <form id="search" className="search-form" method="post" action="/form" autoComplete="off">
                 <label htmlFor="search" ></label>
                 <input 
                 className="search" 
@@ -23,10 +34,12 @@ class SearchTimeZone extends Component{
                 placeholder="Country or Zone" 
                 onKeyUp={this.displayTimeZoneList} 
                 onChange={this.displayTimeZoneList}/>
-                <ul className="suggestions" >
-                    <li onClick={this.handleClick}>Country Name</li>
-                    <li>or Zone Name</li>
-                </ul>
+                <div className="listContainer">
+                    <ul className="suggestions" >
+                        <li onClick={this.handleClick}>Country Name</li>
+                        <li>or Zone Name</li>
+                    </ul>
+                </div>
             </form>
         )
     }
@@ -41,7 +54,7 @@ class SearchTimeZone extends Component{
             const countryName = zone.countryName.replace(regex, `<span class='highLight'>${matchWord}</span>`) 
             const zoneName = zone.zoneName.replace(regex,`<span class='highLight'>${matchWord}</span>`) 
             
-            return `<li><span class='zone' onClick={this.handleClick}} >${countryName}, ${zoneName}</span></li>`
+            return `<li><span class='zone' onClick={this.handleClick} >${countryName}, ${zoneName}</span></li>`
         }).join('');
 
         const defaultHtml = `

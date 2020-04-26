@@ -1,5 +1,6 @@
 import React, { Component } from 'react'; // react if from node_modules
 import axios from 'axios';
+import InfoButton from './InfoButton';
 import SearchTimeZone from './SearchTimeZone';
 import AnalogClock from './AnalogClock';
 import SelectedZones from './SelectedZones';
@@ -11,10 +12,17 @@ class App extends Component {
     super();
     this.state = {
       publicIp: '0.0.0.0',
-      time: new Date()
+      time: new Date(),
+      userSelection:''
     }
   }
 
+  updateUserSelection = (selection)=>{
+    this.setState({
+      userSelection:selection
+    })
+    console.log(this.state.userSelection);
+  }
   componentDidMount(){
     this.getTimeFromIp();
   }
@@ -42,7 +50,9 @@ class App extends Component {
   render(){
     return (
       <div className="App">
+        <InfoButton />
         <h1>World Clock</h1>
+
           <AnalogClock 
           time={ 
             this.state.time.toString()
@@ -50,7 +60,9 @@ class App extends Component {
           clockNumber='1'
           location="Ontario"
         />
-        <SearchTimeZone />
+        <SearchTimeZone 
+          userSelectionProp={this.updateUserSelection}
+        />
         <SelectedZones
           item={<AnalogClock time='Sun Apr 26 2020 17:11: GMT-0400 (Eastern Daylight Time)'
           clockNumber='2'

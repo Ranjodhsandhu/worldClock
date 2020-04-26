@@ -2,40 +2,65 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/****** info button design start ******/
+
+.info-container{
+  position:fixed;
+  top:2%;
+  left:5%;
+  z-index:10;
+}
+.info-outer{
+  border-radius:10px;
+  margin:0;
+  height:100%;
+  display:grid;
+  justify-items:center;
+  align-items:center;
+  text-align:right;
+}
+.info-inner{
+  background:rgb(7,218,165);
+  padding:1em;
+  border-radius:10px;
+  width:200px;
+  clip-path:circle(10% at 10% 20%);
+  transition:all 0.5s ease-in-out;
+  cursor:pointer;
+  position: relative;
+}
+.info-inner h3{
+  color:white;
+  margin:0;
+}
+.info-inner p{
+  color:white;
+  font-size:0.8rem;
+}
+.info-inner:hover,
+.info-inner:active,
+.info-inner:focus
+{
+  clip-path:circle(75%);
+  background:#00B6FF;
+}
+.info-inner span{
+  float:right;
+  color:white;
+  font-weight:bold;
+  transition:color 0.5s;
+  position: absolute;
+  top:12%;
+  left:9%;
+}
+.info-inner:active span,
+.info-inner:focus span,
+.info-inner:hover span{
+  color:rgba(255,255,255,0);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
+/****** info button design end ******/
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
 
 
 /************ Clock designs start **************/
@@ -106,12 +131,21 @@ input.search {
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.12), inset 0 0 2px rgba(0, 0, 0, 0.19);
 }
 
+.listContainer{
+  position:relative;
+  margin-bottom:150px;
+}
 .suggestions {
   margin: 0;
   padding: 0;
-  position: relative;
+  position: absolute;
+  top: 0;
+  left:0;
+  right:0;
+  bottom:0;
   /*perspective: 20px;*/
 }
+
 
 .suggestions li {
   background: black;
@@ -125,6 +159,7 @@ input.search {
   justify-content: flex-start;
   text-transform: capitalize;
   z-index:10;
+
 }
 
 .suggestions li:nth-child(even) {
