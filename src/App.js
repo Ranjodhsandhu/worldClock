@@ -2,6 +2,7 @@ import React, { Component } from 'react'; // react if from node_modules
 import axios from 'axios';
 import SearchTimeZone from './SearchTimeZone';
 import AnalogClock from './AnalogClock';
+import SelectedZones from './SelectedZones';
 
 import './App.css';
 
@@ -47,8 +48,16 @@ class App extends Component {
             this.state.time.toString()
           }
           clockNumber='1'
+          location="Ontario"
         />
         <SearchTimeZone />
+        <SelectedZones
+          item={<AnalogClock time='Sun Apr 26 2020 17:11: GMT-0400 (Eastern Daylight Time)'
+          clockNumber='2'
+          />} 
+          location="British Colombia"
+          >
+        </SelectedZones>
       </div>
     );
   }

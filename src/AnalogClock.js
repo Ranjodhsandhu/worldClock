@@ -32,12 +32,6 @@ class AnalogClock extends Component {
 
         const clockNumber = this.props.clockNumber - 1;
 
-        // if(sDegrees === 90){
-        //     document.getElementsByClassName('second-hand')[clockNumber].style.transition = `none`;
-        // }else{
-        //     document.getElementsByClassName('second-hand')[clockNumber].style.transition = `all 1s linear`;
-        // }
-
         document.getElementsByClassName('second-hand')[clockNumber].style.transform = `rotate(${sDegrees}deg)`
         
         document.getElementsByClassName('min-hand')[clockNumber].style.transform = `rotate(${mDegrees}deg)`
@@ -80,7 +74,9 @@ class AnalogClock extends Component {
                     <div className='hand min-hand'></div>
                     <div className='hand second-hand'></div>
                 </div>
-                <p>{this.state.hours}::{this.state.mins}::{this.state.seconds}</p>
+        <p>
+            {this.state.hours}::{this.state.mins}::{this.state.seconds}
+        </p>
             </div>
         )
     }

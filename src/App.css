@@ -114,7 +114,7 @@ input.search {
 }
 
 .suggestions li {
-  background: red;
+  background: black;
   list-style: none;
   border-bottom: 1px solid #D8D8D8;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.14);
@@ -122,8 +122,9 @@ input.search {
   padding: 20px;
   transition: background 0.2s;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   text-transform: capitalize;
+  z-index:10;
 }
 
 .suggestions li:nth-child(even) {
@@ -137,7 +138,22 @@ input.search {
 }
 
 .highLight {
-  background: yellow;
+  background-color: #ffc600;
 }
 
 /**** User Search suggestions End ****/
+
+
+/**** User Selected Zone Time List Start ****/
+
+.time-zone-list li{ 
+  list-style: none;
+  border: 1px solid #D8D8D8;
+  margin: 20px ;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items:center;
+}
+
+/**** User Selected Zone Time List End ****/

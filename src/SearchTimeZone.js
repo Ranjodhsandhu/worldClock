@@ -13,7 +13,7 @@ class SearchTimeZone extends Component{
     }
     render(){
         return(
-            <form className="search-form">
+            <form className="search-form" method="post" action="/form" autoComplete="off">
                 <label htmlFor="search" ></label>
                 <input 
                 className="search" 
@@ -23,8 +23,8 @@ class SearchTimeZone extends Component{
                 placeholder="Country or Zone" 
                 onKeyUp={this.displayTimeZoneList} 
                 onChange={this.displayTimeZoneList}/>
-                <ul className="suggestions">
-                    <li>Country Name</li>
+                <ul className="suggestions" >
+                    <li onClick={this.handleClick}>Country Name</li>
                     <li>or Zone Name</li>
                 </ul>
             </form>
@@ -32,37 +32,31 @@ class SearchTimeZone extends Component{
     }
     displayTimeZoneList = () => {
         const matchWord = document.getElementsByClassName('search')[0].value;
-        console.log(matchWord.length);
         const matchedArray = this.findMatches(matchWord);
         
         const html = matchedArray.map(zone=>{
             
             const regex = new RegExp(matchWord, 'gi');
             
-            const countryName = zone.countryName.replace(regex, `<span className='highLight'>${document.getElementsByClassName('search')[0].value}</span>`) 
-
+            const countryName = zone.countryName.replace(regex, `<span class='highLight'>${matchWord}</span>`) 
+            const zoneName = zone.zoneName.replace(regex,`<span class='highLight'>${matchWord}</span>`) 
             
-            // const zoneName = zone.countryName.replace(regex,`<span className='hl'>${matchWord}</span>`) 
-            
-            return `
-                <li>
-                    <span className='country'>${countryName}, ${zone.zoneName}</span>
-                </li>
-            `;
+            return `<li><span class='zone' onClick={this.handleClick}} >${countryName}, ${zoneName}</span></li>`
         }).join('');
 
         const defaultHtml = `
             <li>Country Name</li>
             <li>or Zone Name</li>`;
+
         if(matchWord.length > 0)
             document.getElementsByClassName('suggestions')[0].innerHTML = html;
         else
             document.getElementsByClassName('suggestions')[0].innerHTML = defaultHtml;
-
         
-        // console.log(matchedArray);
     }
-
+    handleClick = ()=>{
+        console.log('Hello');
+    }
     getTimeZoneList = ()=>{
         axios({
             url: 'https://api.timezonedb.com/v2.1/list-time-zone',
