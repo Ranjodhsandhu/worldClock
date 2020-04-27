@@ -6,9 +6,9 @@ class SelectedZones extends Component{
         return(
             <ul className="time-zone-list">
                 <li>
-                    <p>{this.props.location}</p>
+                    <p>{this.props.locationProp}</p>
                     <div>
-                        {this.props.item}
+                        {this.props.itemProp}
                     </div>
                 </li>
             </ul>

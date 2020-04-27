@@ -12,11 +12,10 @@ class SearchTimeZone extends Component{
         this.getTimeZoneList();
         const searchForm = document.getElementById('search');
         searchForm.addEventListener('click',(event)=>{
-            document.getElementsByClassName('search')[0].innerText = '';
+            document.getElementById('search-input').text = '';
             document.getElementsByClassName('suggestions')[0].innerHTML = `<li>Country Name</li>
             <li>or Zone Name</li>`;
             if(event.target.localName === 'li'){
-                console.log(event.target.firstChild.innerText);
                 const text = event.target.firstChild.innerText;
                 const updateSelection = (selection)=>{
                     this.props.userSelectionProp(selection);
@@ -33,7 +32,7 @@ class SearchTimeZone extends Component{
                 className="search" 
                 type="text" 
                 name="search" 
-                id="search"
+                id="search-input"
                 placeholder="Country or Zone" 
                 onKeyUp={this.displayTimeZoneList} 
                 onChange={this.displayTimeZoneList}/>

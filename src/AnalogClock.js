@@ -20,7 +20,7 @@ class AnalogClock extends Component {
         1000);
     }
     setDate = () => {
-        let now = new Date(this.props.time);
+        let now = this.props.timeProp;
         this.setState({
             seconds: now.getSeconds(),
             mins: now.getMinutes(),
@@ -33,7 +33,7 @@ class AnalogClock extends Component {
         const mDegrees = ((this.state.mins / 60) * 360) + ((this.state.seconds / 60) * 6);
         const hDegrees = ((this.state.hours / 12) * 360) + ((this.state.mins / 60) * 30);
 
-        const clockNumber = this.props.clockNumber - 1;
+        const clockNumber = this.props.clockNumberProp - 1;
 
         document.getElementsByClassName('second-hand')[clockNumber].style.transform = `rotate(${sDegrees}deg)`
         
@@ -90,9 +90,9 @@ class AnalogClock extends Component {
                     <div className="number number11">11</div>
                     <div className="number number12">12</div>
                 </div>
-        <p>
-            {this.state.hours}::{this.state.mins}::{this.state.seconds}
-        </p>
+                <p>
+                    {this.state.hours}::{this.state.mins}::{this.state.seconds}
+                </p>
             </div>
         )
     }

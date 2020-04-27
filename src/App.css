@@ -9,13 +9,34 @@ a,abbr,acronym,address,applet,article,aside,audio,b,big,blockquote,body,canvas,c
 
 /***** setup snippet end *****/
 
-
+/***** Global Styles Start *****/
 *,*::after, *::before{
   box-sizing:border-box;
 }
-/* body{
+body{
   background:linear-gradient(to right, hsl(200,100%,50%),hsl(175,100%,50%));
-} */
+}
+
+.wrapper{
+  width:90%;
+  max-width:1200px;
+  margin:0 auto;
+}
+
+/***** Global Styles End*****/
+
+/***** Header styles Start *****/
+
+.App h1{
+  margin: 50px auto;
+  font-size: 3rem;
+  width: 100%;
+  text-align: center;
+}
+
+/***** Header styles End *****/
+
+
 /****** info button design start ******/
 
 .info-container{
@@ -130,7 +151,7 @@ a,abbr,acronym,address,applet,article,aside,audio,b,big,blockquote,body,canvas,c
   border:1px solid white;
   border-top-left-radius:10px;
   border-top-right-radius:10px;
-  z-index:5;
+  z-index:10;
   transform-origin:bottom;
   transform:translateX(-50%) rotate(0deg);
   transform:translateY(-10px);
@@ -139,7 +160,7 @@ a,abbr,acronym,address,applet,article,aside,audio,b,big,blockquote,body,canvas,c
   content:'';
   position:absolute;
   background-color:black;
-  z-index:6;
+  z-index:11;
   width:15px;
   height:15px;
   top:50%;
@@ -178,7 +199,7 @@ input.search {
   text-align: center;
   outline:0;
   border: 10px solid #F7F7F7;
-  width: 50%;
+  width: 100%;
   position: relative;
   top: 10px;
   z-index: 2;
@@ -189,6 +210,7 @@ input.search {
 
 .listContainer{
   position:relative;
+  margin-top:8px;
   margin-bottom:150px;
 }
 .suggestions {
@@ -214,7 +236,7 @@ input.search {
   display: flex;
   justify-content: flex-start;
   text-transform: capitalize;
-  z-index:10;
+  z-index:20;
 
 }
 

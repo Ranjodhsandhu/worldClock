@@ -12,19 +12,45 @@ class App extends Component {
     super();
     this.state = {
       publicIp: '0.0.0.0',
-      time: new Date(),
+      timeFromIP: new Date(),
+      timeFromZone: new Date(),
       userSelection:''
     }
   }
+  componentDidMount(){
+    // this.getTimeFromIp();
+  }
 
   updateUserSelection = (selection)=>{
+    let selectedZoneName = '';
+    if(selection !== undefined)
+      selectedZoneName =  selection.split(', ')[1];
+  
     this.setState({
-      userSelection:selection
+      userSelection:selectedZoneName
     })
-    console.log(this.state.userSelection);
+    if(this.state.userSelection !== ''){
+      this.getTimeFromZone();
+    }
   }
-  componentDidMount(){
-    this.getTimeFromIp();
+
+  getTimeFromZone = ()=>{
+    axios({
+      url: 'http://api.timezonedb.com/v2.1/get-time-zone',
+      method: 'GET',
+      responseType: 'json',
+      params:{
+        key:'16OZ7ZU6JZBK',
+        format:'json',
+        by:'zone',
+        zone:this.state.userSelection
+      }
+    }).then((resultTime) => {
+        const actualTime = resultTime.data.formatted;
+        this.setState({
+          timeFromZone: new Date(actualTime),
+        })
+      })
   }
 
   getTimeFromIp = ()=>{
@@ -41,35 +67,40 @@ class App extends Component {
       }).then((resultTime) => {
         this.setState({
           publicIp: publicAddress.data.ip,
-          time: new Date(resultTime.data.datetime)
+          timeFromIp: resultTime.data.datetime
         })
       })
     })
   }
 
   render(){
+    // let timeClock2 = 'Mon Apr 27 2020 17:11:12 GMT-0400 (Eastern Daylight Time)';
+    console.log(this.state.timeFromZone);
     return (
-      <div className="App">
+      <div className="App wrapper">
         <InfoButton />
         <h1>World Clock</h1>
-
           <AnalogClock 
-          time={ 
-            this.state.time.toString()
-          }
-          clockNumber='1'
-          location="Ontario"
+          timeProp={new Date()}//this.state.timeFromIp)}
+          clockNumberProp='1'
         />
         <SearchTimeZone 
           userSelectionProp={this.updateUserSelection}
         />
+        {this.state.userSelection !== '' 
+        ? 
         <SelectedZones
-          item={<AnalogClock time='Sun Apr 26 2020 17:11: GMT-0400 (Eastern Daylight Time)'
-          clockNumber='2'
-          />} 
-          location="British Colombia"
+          itemProp={
+            <AnalogClock 
+              timeProp={new Date(this.state.timeFromZone)}
+              clockNumberProp='2'
+            />
+          } 
+          locationProp="British Colombia"
           >
         </SelectedZones>
+        :<SelectedZones />
+        }
       </div>
     );
   }
