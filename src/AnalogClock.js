@@ -10,12 +10,14 @@ class AnalogClock extends Component {
             hours:0,
         }
     }
-    
+
     componentDidMount() {
         this.setDate();
         setInterval(()=>{
-            this.updateTime(1);
-        }, 1000);
+            this.updateTime();
+
+        }, 
+        1000);
     }
     setDate = () => {
         let now = new Date(this.props.time);
@@ -25,10 +27,11 @@ class AnalogClock extends Component {
             hours: now.getHours(),
         })
     }
-    updateTime = (secs) => {
-        const sDegrees = ((this.state.seconds / 60) * 360) + 90;
-        const mDegrees = ((this.state.mins / 60) * 360) + ((this.state.seconds / 60) * 6) + 90;
-        const hDegrees = ((this.state.hours / 12) * 360) + ((this.state.mins / 60) * 30) + 90;
+
+    updateTime = () => {
+        const sDegrees = ((this.state.seconds / 60) * 360);
+        const mDegrees = ((this.state.mins / 60) * 360) + ((this.state.seconds / 60) * 6);
+        const hDegrees = ((this.state.hours / 12) * 360) + ((this.state.mins / 60) * 30);
 
         const clockNumber = this.props.clockNumber - 1;
 
@@ -44,15 +47,16 @@ class AnalogClock extends Component {
             document.getElementsByClassName('clock')[clockNumber].style.background = `rgba(0,0,0,0.5)`;
         }
 
-        let s=0,
+        let s=this.state.seconds,
             m=this.state.mins,
             h=this.state.hours;
 
-        s = this.state.seconds + secs;
+        s = s + 1;
         if(s >= 60){
             m = this.state.mins + 1; 
             s = 0;
         }
+        
         if(m >= 60){
             h = this.state.hours + 1;
             m = 0;
@@ -73,6 +77,18 @@ class AnalogClock extends Component {
                     <div className='hand hour-hand'></div>
                     <div className='hand min-hand'></div>
                     <div className='hand second-hand'></div>
+                    <div className="number number1">1</div>
+                    <div className="number number2">2</div>
+                    <div className="number number3">3</div>
+                    <div className="number number4">4</div>
+                    <div className="number number5">5</div>
+                    <div className="number number6">6</div>
+                    <div className="number number7">7</div>
+                    <div className="number number8">8</div>
+                    <div className="number number9">9</div>
+                    <div className="number number10">10</div>
+                    <div className="number number11">11</div>
+                    <div className="number number12">12</div>
                 </div>
         <p>
             {this.state.hours}::{this.state.mins}::{this.state.seconds}

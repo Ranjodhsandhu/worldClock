@@ -12,6 +12,9 @@ class SearchTimeZone extends Component{
         this.getTimeZoneList();
         const searchForm = document.getElementById('search');
         searchForm.addEventListener('click',(event)=>{
+            document.getElementsByClassName('search')[0].innerText = '';
+            document.getElementsByClassName('suggestions')[0].innerHTML = `<li>Country Name</li>
+            <li>or Zone Name</li>`;
             if(event.target.localName === 'li'){
                 console.log(event.target.firstChild.innerText);
                 const text = event.target.firstChild.innerText;
@@ -36,7 +39,7 @@ class SearchTimeZone extends Component{
                 onChange={this.displayTimeZoneList}/>
                 <div className="listContainer">
                     <ul className="suggestions" >
-                        <li onClick={this.handleClick}>Country Name</li>
+                        <li>Country Name</li>
                         <li>or Zone Name</li>
                     </ul>
                 </div>
@@ -66,9 +69,6 @@ class SearchTimeZone extends Component{
         else
             document.getElementsByClassName('suggestions')[0].innerHTML = defaultHtml;
         
-    }
-    handleClick = ()=>{
-        console.log('Hello');
     }
     getTimeZoneList = ()=>{
         axios({
