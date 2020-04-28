@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-
+import { setDriftlessInterval} from 'driftless';
 class AnalogClock extends Component {
 
     constructor(){
@@ -13,9 +13,8 @@ class AnalogClock extends Component {
 
     componentDidMount() {
         this.setDate();
-        setInterval(()=>{
+        setDriftlessInterval(()=>{
             this.updateTime();
-
         }, 
         1000);
     }

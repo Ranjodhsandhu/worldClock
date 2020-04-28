@@ -12,21 +12,24 @@ class SearchTimeZone extends Component{
         this.getTimeZoneList();
         const searchForm = document.getElementById('search');
         searchForm.addEventListener('click',(event)=>{
-            document.getElementById('search-input').text = '';
-            document.getElementsByClassName('suggestions')[0].innerHTML = `<li>Country Name</li>
-            <li>or Zone Name</li>`;
-            if(event.target.localName === 'li'){
+            if(event.target.localName === 'li' || event.target.localName === 'span' ){
+                document.getElementById('search-input').value = '';
+                document.getElementsByClassName('suggestions')[0].innerHTML = `<li>Country Name</li>
+                <li>or Zone Name</li>`;
                 const text = event.target.firstChild.innerText;
+                console.log(event.target);
+                console.log(text);
                 const updateSelection = (selection)=>{
                     this.props.userSelectionProp(selection);
                 }
-                updateSelection(text);
+                if(text !== 'undefined') updateSelection(text);
             }
         });
     }
     render(){
         return(
-            <form id="search" className="search-form" method="post" action="/form" autoComplete="off">
+            <form id="search" className="search-form" action="" autoComplete="off" onSubmit={(event) => 
+                event.preventDefault()}>
                 <label htmlFor="search" ></label>
                 <input 
                 className="search" 

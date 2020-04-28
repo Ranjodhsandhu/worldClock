@@ -14,6 +14,8 @@ class App extends Component {
       publicIp: '0.0.0.0',
       timeFromIP: new Date(),
       timeFromZone: new Date(),
+      zoneTimeList:[],
+      selectedZoneList:[],
       userSelection:''
     }
   }
@@ -27,14 +29,23 @@ class App extends Component {
       selectedZoneName =  selection.split(', ')[1];
   
     this.setState({
-      userSelection:selectedZoneName
-    })
-    if(this.state.userSelection !== ''){
-      this.getTimeFromZone();
-    }
+      selectedZoneList: [...this.state.selectedZoneList, selectedZoneName]
+    },()=>{
+        console.log(this.state.selectedZoneList.length);
+        this.state.selectedZoneList.length > 0 
+        ? this.state.selectedZoneList.map((zone)=>{
+          this.getTimeFromZone(zone);
+        })
+        :console.log('List Empty');
+      }
+    )
+    
+    // if(this.state.userSelection !== ''){
+    //   this.getTimeFromZone();
+    // }
   }
 
-  getTimeFromZone = ()=>{
+  getTimeFromZone = (zoneFromList)=>{
     axios({
       url: 'http://api.timezonedb.com/v2.1/get-time-zone',
       method: 'GET',
@@ -43,13 +54,13 @@ class App extends Component {
         key:'16OZ7ZU6JZBK',
         format:'json',
         by:'zone',
-        zone:this.state.userSelection
+        zone:zoneFromList
       }
     }).then((resultTime) => {
         const actualTime = resultTime.data.formatted;
         this.setState({
-          timeFromZone: new Date(actualTime),
-        })
+          zoneTimeList: [...this.state.zoneTimeList, actualTime]
+        },()=>{console.log(this.state.zoneTimeList);})
       })
   }
 
@@ -87,20 +98,21 @@ class App extends Component {
         <SearchTimeZone 
           userSelectionProp={this.updateUserSelection}
         />
-        {this.state.userSelection !== '' 
-        ? 
+
         <SelectedZones
           itemProp={
             <AnalogClock 
-              timeProp={new Date(this.state.timeFromZone)}
+              timeProp={new Date('Mon Apr 27 2020 18:16:24 GMT-0400 (Eastern Daylight Time)')}//this.state.timeFromZone)}
               clockNumberProp='2'
             />
           } 
           locationProp="British Colombia"
           >
         </SelectedZones>
+        {/* {this.state.userSelection !== '' 
+        ? 
         :<SelectedZones />
-        }
+        } */}
       </div>
     );
   }
