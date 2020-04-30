@@ -84,9 +84,7 @@ class App extends Component {
           userSelectionProp={this.updateUserSelection}
         />
         
-        <SelectedZones 
-          timeZoneListProp = {new Date()}
-        />
+        <SelectedZones />
       </div>
     );
   }

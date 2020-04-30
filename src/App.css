@@ -317,15 +317,20 @@ input.search {
 
 
 /**** User Selected Zone Time List Start ****/
-
+.time-zone-list{
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-grow:1;
+  flex-shrink:1;
+  flex-wrap: wrap;
+  margin:0 auto;
+}
 .time-zone-list li{ 
   list-style: none;
   border: 1px solid #D8D8D8;
   margin: 20px ;
   padding: 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items:center;
 }
 
 /**** User Selected Zone Time List End ****/

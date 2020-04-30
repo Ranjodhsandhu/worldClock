@@ -17,7 +17,7 @@ class AnalogClock extends Component {
     }
     componentDidUpdate(prevProps, prevState) {
         if (this.props.timeProp.zoneName !== prevState.zone) {
-            this.setDate();            
+            this.setDate();
         }
     }
     componentDidMount() {
@@ -54,19 +54,6 @@ class AnalogClock extends Component {
         document.getElementsByClassName('min-hand')[clockNumber].style.transform = `rotate(${mDegrees}deg)`;
         document.getElementsByClassName('hour-hand')[clockNumber].style.transform = `rotate(${hDegrees}deg)`;
 
-        // const clock = document.getElementsByClassName('clock')[clockNumber];
-        // if(this.state.hours >= 6 && this.state.hours < 18){
-        //     clock.style.background = `url(${this.state.mapUrl}&type=light)`;
-        //     for(let i=0;i<12;i++){
-        //         document.getElementsByClassName('number')[i].style.color = 'black';
-        //     }
-        // }else{
-        //     clock.style.background = `url(${this.state.mapUrl}&type=dark)`;
-        //     for(let i=0;i<12;i++){
-        //         document.getElementsByClassName('number')[i].style.color = 'white';
-        //     }
-        // }
-
         let s=this.state.seconds,
             m=this.state.mins,
             h=this.state.hours;
@@ -94,12 +81,15 @@ class AnalogClock extends Component {
     
 
     render(){
-        const isDark = this.state.hours >= 6 && this.state.hours < 18;
-        const mapURL = isDark ? this.state.mapUrl + '&type=light' : this.state.mapUrl + '&type=dark';
+        const isLight = this.state.hours >= 6 && this.state.hours < 18;
+        const mapURL = isLight ? this.state.mapUrl + '&type=light' : this.state.mapUrl + '&type=dark';
+        const textColor = isLight ? 'black':'white';
         return (
-            
-            <div className={isDark?'clock dark-background' :'clock light-background'} style={{backgroundImage:`url(${mapURL})`}}>
-                <div className='clock-face'>
+            <div 
+                className={isLight?'clock light-background' :'clock dark-background'} 
+                style={{backgroundImage:`url(${mapURL})`}}
+            >
+                <div className='clock-face' style={{color:`${textColor}`}}>
                     <div className='hand hour-hand'></div>
                     <div className='hand min-hand'></div>
                     <div className='hand second-hand'></div>
