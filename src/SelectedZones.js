@@ -36,8 +36,8 @@ class SelectedZones extends Component{
                     <p>{this.props.locationProp}</p>
                     <div>
                         <AnalogClock
-                            timeProp={this.props.timeZoneProp}
-                            clockNumberProp={this.props.clockNumberProp}
+                            timeProp={this.props.timeZoneListProp}
+                            clockNumberProp='1'
                         />
                     </div>
                 </li>

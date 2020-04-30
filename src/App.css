@@ -127,20 +127,31 @@ body{
   height:100%;
   text-align:center;
   transform:rotate(0deg);
-  padding:5px;
+  padding:2px;
   font-size:1.2rem;
 }
 .clock-face .number1{transform:rotate(30deg);}
+.clock-face .number1 p{transform:rotate(330deg);}
 .clock-face .number2{transform:rotate(60deg);}
+.clock-face .number2 p{transform:rotate(300deg);}
 .clock-face .number3{transform:rotate(90deg);}
+.clock-face .number3 p{transform:rotate(270deg);}
 .clock-face .number4{transform:rotate(120deg);}
+.clock-face .number4 p{transform:rotate(240deg);}
 .clock-face .number5{transform:rotate(150deg);}
+.clock-face .number5 p{transform:rotate(210deg);}
 .clock-face .number6{transform:rotate(180deg);}
+.clock-face .number6 p{transform:rotate(180deg);}
 .clock-face .number7{transform:rotate(210deg);}
+.clock-face .number7 p{transform:rotate(150deg);}
 .clock-face .number8{transform:rotate(240deg);}
+.clock-face .number8 p{transform:rotate(120deg);}
 .clock-face .number9{transform:rotate(270deg);}
+.clock-face .number9 p{transform:rotate(90deg);}
 .clock-face .number10{transform:rotate(300deg);}
+.clock-face .number10 p{transform:rotate(60deg);}
 .clock-face .number11{transform:rotate(330deg);}
+.clock-face .number11 p{transform:rotate(30deg);}
 
 .clock-face .hand{
   position:absolute;
@@ -159,6 +170,7 @@ body{
 .clock-face::after{
   content:'';
   position:absolute;
+  border:1px solid white;
   background-color:black;
   z-index:11;
   width:15px;
@@ -184,13 +196,51 @@ body{
   height:35%;
   left:calc(50% - 4px);
 }
+.favorite-button,
 .local-time,
 .country-name{
   text-align:center;
   margin: 1rem auto;
-  white-space: nowrap;
+}
+
+.local-time,
+.country-name
+{
   padding:0.5rem;
   font-size:2rem;
+  white-space: nowrap;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+
+}
+.favorite-button{
+  font-size:1rem;
+  padding:0.5rem;
+  border: 5px solid white;
+  border-radius:5px;
+  outline:0;
+  background:white;
+  box-shadow: 
+    0 0 7px rgba(0, 0, 0, 0.1), 
+    inset 0 0 3px rgba(0, 0, 0, 0.2);
+  transition: 0.3s ease-in-out;
+}
+.favorite-button:hover,
+.favorite-button:focus{
+  background-color:rgba(255,255,255,0.5);
+  border-color:rgba(255,255,255,0.5);
+}
+.favorite-button:active{  
+  background-color:rgba(255,255,255,0.1);
+  border-color:rgba(255,255,255,0.1);
+}
+
+.favorite-form{
+  margin:0 auto;
+  display:flex;
+  justify-content: center;
+  align-items: center;
 }
 /************ Clock designs end **************/
 
@@ -198,7 +248,7 @@ body{
 
 .search-form {
   max-width: 400px;
-  margin: 50px auto;
+  margin: 1rem auto;
 }
 
 input.search {
@@ -212,7 +262,9 @@ input.search {
   z-index: 2;
   border-radius: 5px;
   font-size: 1.6rem;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.12), inset 0 0 2px rgba(0, 0, 0, 0.19);
+  box-shadow: 
+    0 0 7px rgba(0, 0, 0, 0.1), 
+    inset 0 0 1px rgba(0, 0, 0, 0.2);
 }
 
 .listContainer{

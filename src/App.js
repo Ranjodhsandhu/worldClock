@@ -5,6 +5,7 @@ import SearchTimeZone from './SearchTimeZone';
 import AnalogClock from './AnalogClock';
 import SelectedZones from './SelectedZones';
 import latLngObject from './latLngObject';
+import firebase from './firebase';
 import './App.css';
 
 class App extends Component {
@@ -54,26 +55,37 @@ class App extends Component {
       }
     )
   }
-  
+  addToFavorite = (event) => {
+    event.preventDefault();
+    if (this.state.timeZone !== '') {
+      const dbRef = firebase.database().ref();
+      dbRef.push(this.state.timeZone.zoneName);
+    }
+  }
 
   render(){
-    // console.log(this.state.timeZone);
     return (
       <div className="App wrapper">
         <InfoButton />
         <h1>World Clock</h1>
-          <AnalogClock 
-            timeProp={this.state.timeZone}
-            coordinatesProp={this.state.coordinates}
-            clockNumberProp='0'
-          />
+        <AnalogClock 
+          timeProp={this.state.timeZone}
+          coordinatesProp={this.state.coordinates}
+          clockNumberProp='0'
+        />
+        <form action="" className="favorite-form">
+          <button 
+          className="favorite-button" 
+          type="submit" 
+          onClick={this.addToFavorite}>Add To Favorite</button>
+        </form>
+      
         <SearchTimeZone 
           userSelectionProp={this.updateUserSelection}
         />
         
         <SelectedZones 
-          timeZoneProp = {new Date()}
-          clockNumberProp = '1'
+          timeZoneListProp = {new Date()}
         />
       </div>
     );

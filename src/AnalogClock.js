@@ -1,5 +1,7 @@
 import React,{Component} from 'react';
 import { setDriftlessInterval} from 'driftless';
+
+
 class AnalogClock extends Component {
 
     constructor(){
@@ -48,17 +50,21 @@ class AnalogClock extends Component {
         const hDegrees = ((this.state.hours / 12) * 360) + ((this.state.mins / 60) * 30);
 
         const clockNumber = this.props.clockNumberProp;
+        document.getElementsByClassName('second-hand')[clockNumber].style.transform = `rotate(${sDegrees}deg)`;
+        document.getElementsByClassName('min-hand')[clockNumber].style.transform = `rotate(${mDegrees}deg)`;
+        document.getElementsByClassName('hour-hand')[clockNumber].style.transform = `rotate(${hDegrees}deg)`;
 
-        document.getElementsByClassName('second-hand')[clockNumber].style.transform = `rotate(${sDegrees}deg)`
-        
-        document.getElementsByClassName('min-hand')[clockNumber].style.transform = `rotate(${mDegrees}deg)`
-        
-        document.getElementsByClassName('hour-hand')[clockNumber].style.transform = `rotate(${hDegrees}deg)`
-        
+        const clock = document.getElementsByClassName('clock')[clockNumber];
         if(this.state.hours >= 6 && this.state.hours < 18){
-            document.getElementsByClassName('clock')[clockNumber].style.background = `url(${this.state.mapUrl}&type=light)`;
+            clock.style.background = `url(${this.state.mapUrl}&type=light)`;
+            for(let i=0;i<12;i++){
+                document.getElementsByClassName('number')[i].style.color = 'black';
+            }
         }else{
-            document.getElementsByClassName('clock')[clockNumber].style.background = `url(${this.state.mapUrl}&type=dark)`;
+            clock.style.background = `url(${this.state.mapUrl}&type=dark)`;
+            for(let i=0;i<12;i++){
+                document.getElementsByClassName('number')[i].style.color = 'white';
+            }
         }
 
         let s=this.state.seconds,
@@ -84,6 +90,9 @@ class AnalogClock extends Component {
             hours:h,
         })
     }
+
+    
+
     render(){
         return (
             <div className='clock'>
@@ -91,18 +100,18 @@ class AnalogClock extends Component {
                     <div className='hand hour-hand'></div>
                     <div className='hand min-hand'></div>
                     <div className='hand second-hand'></div>
-                    <div className="number number1">1</div>
-                    <div className="number number2">2</div>
-                    <div className="number number3">3</div>
-                    <div className="number number4">4</div>
-                    <div className="number number5">5</div>
-                    <div className="number number6">6</div>
-                    <div className="number number7">7</div>
-                    <div className="number number8">8</div>
-                    <div className="number number9">9</div>
-                    <div className="number number10">10</div>
-                    <div className="number number11">11</div>
-                    <div className="number number12">12</div>
+                    <div className="number number1"><p>1</p></div>
+                    <div className="number number2"><p>2</p></div>
+                    <div className="number number3"><p>3</p></div>
+                    <div className="number number4"><p>4</p></div>
+                    <div className="number number5"><p>5</p></div>
+                    <div className="number number6"><p>6</p></div>
+                    <div className="number number7"><p>7</p></div>
+                    <div className="number number8"><p>8</p></div>
+                    <div className="number number9"><p>9</p></div>
+                    <div className="number number10"><p>10</p></div>
+                    <div className="number number11"><p>11</p></div>
+                    <div className="number number12"><p>12</p></div>
                 </div>
                 {
                     this.props.timeProp.countryName === undefined
