@@ -4,7 +4,7 @@ import InfoButton from './InfoButton';
 import SearchTimeZone from './SearchTimeZone';
 import AnalogClock from './AnalogClock';
 import SelectedZones from './SelectedZones';
-
+import latLngObject from './latLngObject';
 import './App.css';
 
 class App extends Component {
@@ -12,6 +12,7 @@ class App extends Component {
     super();
     this.state = {
       timeZone: {},
+      coordinates:'',
       selectedZoneList:[],
     }
   }
@@ -37,12 +38,18 @@ class App extends Component {
         format: 'json',
         by: 'zone',
         zone: zoneName,
-        fields: 'zoneName,gmtOffset,timestamp',
+        fields: 'zoneName,gmtOffset,timestamp,countryName,countryCode',
       }
     }).then((result) => {
-        console.log(result.data);
+        let lat=0,lng=0;
+        if(latLngObject.hasOwnProperty(result.data.countryCode))
+        {
+          lat = latLngObject[result.data.countryCode].Lat;
+          lng = latLngObject[result.data.countryCode].Lng;
+        }
         this.setState({
           timeZone: result.data,
+          coordinates: `${lat},${lng}`
         })
       }
     )
@@ -57,6 +64,7 @@ class App extends Component {
         <h1>World Clock</h1>
           <AnalogClock 
             timeProp={this.state.timeZone}
+            coordinatesProp={this.state.coordinates}
             clockNumberProp='0'
           />
         <SearchTimeZone 

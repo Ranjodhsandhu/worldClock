@@ -6,6 +6,7 @@ class AnalogClock extends Component {
         super();
         this.state = {
             now: new Date(),
+            mapUrl:'https://open.mapquestapi.com/staticmap/v5/map?key=ozwRV4KrZgLGMjKBYbnTIZBWQAN4JZBn&center=60,-95&size=200,200&zoom=2&format=png',
             zone:'',
             seconds:(new Date()).getSeconds(),
             mins: (new Date()).getMinutes(),
@@ -32,6 +33,7 @@ class AnalogClock extends Component {
             date = new Date(date.toLocaleString('en-US', { timeZone: `${zTime.zoneName}` }));
             this.setState({
                 now: date,
+                mapUrl:`https://open.mapquestapi.com/staticmap/v5/map?key=ozwRV4KrZgLGMjKBYbnTIZBWQAN4JZBn&center=${this.props.coordinatesProp}&size=200,200&zoom=2&format=png`,
                 zone: zTime.zoneName,
                 seconds: date.getSeconds(),
                 mins: date.getMinutes(),
@@ -54,9 +56,9 @@ class AnalogClock extends Component {
         document.getElementsByClassName('hour-hand')[clockNumber].style.transform = `rotate(${hDegrees}deg)`
         
         if(this.state.hours >= 6 && this.state.hours < 18){
-            document.getElementsByClassName('clock')[clockNumber].style.background = `rgba(255,255,255,0)`;
+            document.getElementsByClassName('clock')[clockNumber].style.background = `url(${this.state.mapUrl}&type=light)`;
         }else{
-            document.getElementsByClassName('clock')[clockNumber].style.background = `rgba(0,0,0,0.5)`;
+            document.getElementsByClassName('clock')[clockNumber].style.background = `url(${this.state.mapUrl}&type=dark)`;
         }
 
         let s=this.state.seconds,
@@ -102,9 +104,10 @@ class AnalogClock extends Component {
                     <div className="number number11">11</div>
                     <div className="number number12">12</div>
                 </div>
-                <p>
+                {/* <p>
                     {this.state.hours}::{this.state.mins}::{this.state.seconds}
-                </p>
+                </p> */}
+                <p>{this.props.timeProp.countryName}</p>
             </div>
         )
     }
