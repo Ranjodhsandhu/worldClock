@@ -1,4 +1,5 @@
 import React,{Component} from 'react';
+import AnalogClock from './AnalogClock';
 
 class SelectedZones extends Component{
 
@@ -8,7 +9,10 @@ class SelectedZones extends Component{
                 <li>
                     <p>{this.props.locationProp}</p>
                     <div>
-                        {this.props.itemProp}
+                        <AnalogClock
+                            timeProp={this.props.timeZoneProp}
+                            clockNumberProp={this.props.clockNumberProp}
+                        />
                     </div>
                 </li>
             </ul>

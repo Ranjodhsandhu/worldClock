@@ -5,26 +5,39 @@ class AnalogClock extends Component {
     constructor(){
         super();
         this.state = {
-            seconds:0,
-            mins:0,
-            hours:0,
+            now: new Date(),
+            zone:'',
+            seconds:(new Date()).getSeconds(),
+            mins: (new Date()).getMinutes(),
+            hours: (new Date()).getHours(),
         }
     }
-
+    componentDidUpdate(prevProps, prevState) {
+        if (this.props.timeProp.zoneName !== prevState.zone) {
+            this.setDate();            
+        }
+    }
     componentDidMount() {
         this.setDate();
-        setDriftlessInterval(()=>{
+        this.timeId = setDriftlessInterval(()=>{
             this.updateTime();
         }, 
         1000);
     }
+    
     setDate = () => {
-        let now = this.props.timeProp;
-        this.setState({
-            seconds: now.getSeconds(),
-            mins: now.getMinutes(),
-            hours: now.getHours(),
-        })
+        if (Object.keys(this.props.timeProp).length){
+            const zTime = this.props.timeProp;
+            let date = new Date((zTime.timestamp - zTime.gmtOffset) * 1000);
+            date = new Date(date.toLocaleString('en-US', { timeZone: `${zTime.zoneName}` }));
+            this.setState({
+                now: date,
+                zone: zTime.zoneName,
+                seconds: date.getSeconds(),
+                mins: date.getMinutes(),
+                hours: date.getHours(),
+            })
+        }
     }
 
     updateTime = () => {
@@ -32,7 +45,7 @@ class AnalogClock extends Component {
         const mDegrees = ((this.state.mins / 60) * 360) + ((this.state.seconds / 60) * 6);
         const hDegrees = ((this.state.hours / 12) * 360) + ((this.state.mins / 60) * 30);
 
-        const clockNumber = this.props.clockNumberProp - 1;
+        const clockNumber = this.props.clockNumberProp;
 
         document.getElementsByClassName('second-hand')[clockNumber].style.transform = `rotate(${sDegrees}deg)`
         

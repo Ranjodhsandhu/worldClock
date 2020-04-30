@@ -1,24 +1,24 @@
 import React,{Component} from 'react';
-import axios from 'axios';
+import zoneListObject from './zoneListObject';
 
 class SearchTimeZone extends Component{
     constructor(){
         super();
         this.state = {
-            timeZoneList: []
+            timeZoneList: zoneListObject
         }
     }
     componentDidMount(){
-        this.getTimeZoneList();
         const searchForm = document.getElementById('search');
         searchForm.addEventListener('click',(event)=>{
             if(event.target.localName === 'li' || event.target.localName === 'span' ){
                 document.getElementById('search-input').value = '';
                 document.getElementsByClassName('suggestions')[0].innerHTML = `<li>Country Name</li>
                 <li>or Zone Name</li>`;
-                const text = event.target.firstChild.innerText;
-                console.log(event.target);
-                console.log(text);
+                let text = event.target.innerText;
+                if(event.target.localName === 'span' && event.target.className === 'highLight'){
+                    text = event.target.parentNode.innerText;
+                }
                 const updateSelection = (selection)=>{
                     this.props.userSelectionProp(selection);
                 }
@@ -59,7 +59,7 @@ class SearchTimeZone extends Component{
             const countryName = zone.countryName.replace(regex, `<span class='highLight'>${matchWord}</span>`) 
             const zoneName = zone.zoneName.replace(regex,`<span class='highLight'>${matchWord}</span>`) 
             
-            return `<li><span class='zone' onClick={this.handleClick} >${countryName}, ${zoneName}</span></li>`
+            return `<li><span class='zone'>${countryName}, ${zoneName}</span></li>`
         }).join('');
 
         const defaultHtml = `
@@ -71,22 +71,6 @@ class SearchTimeZone extends Component{
         else
             document.getElementsByClassName('suggestions')[0].innerHTML = defaultHtml;
         
-    }
-    getTimeZoneList = ()=>{
-        axios({
-            url: 'https://api.timezonedb.com/v2.1/list-time-zone',
-            method: 'GET',
-            responseType: 'json',
-            params:{
-                key:'16OZ7ZU6JZBK',
-                format:'json',
-                fields:'countryName,zoneName'
-            }
-        }).then((zoneList)=>{
-            this.setState({
-                timeZoneList: zoneList.data.zones
-            })
-        });
     }
     findMatches = (matchWord)=>{
         return this.state.timeZoneList.filter(zone =>{

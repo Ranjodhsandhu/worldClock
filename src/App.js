@@ -11,108 +11,65 @@ class App extends Component {
   constructor(){
     super();
     this.state = {
-      publicIp: '0.0.0.0',
-      timeFromIP: new Date(),
-      timeFromZone: new Date(),
-      zoneTimeList:[],
+      timeZone: {},
       selectedZoneList:[],
-      userSelection:''
     }
-  }
-  componentDidMount(){
-    // this.getTimeFromIp();
   }
 
   updateUserSelection = (selection)=>{
     let selectedZoneName = '';
-    if(selection !== undefined)
+    if(selection !== 'undefined')
       selectedZoneName =  selection.split(', ')[1];
-  
     this.setState({
       selectedZoneList: [...this.state.selectedZoneList, selectedZoneName]
-    },()=>{
-        console.log(this.state.selectedZoneList.length);
-        this.state.selectedZoneList.length > 0 
-        ? this.state.selectedZoneList.map((zone)=>{
-          this.getTimeFromZone(zone);
-        })
-        :console.log('List Empty');
-      }
-    )
-    
-    // if(this.state.userSelection !== ''){
-    //   this.getTimeFromZone();
-    // }
-  }
-
-  getTimeFromZone = (zoneFromList)=>{
-    axios({
-      url: 'http://api.timezonedb.com/v2.1/get-time-zone',
-      method: 'GET',
-      responseType: 'json',
-      params:{
-        key:'16OZ7ZU6JZBK',
-        format:'json',
-        by:'zone',
-        zone:zoneFromList
-      }
-    }).then((resultTime) => {
-        const actualTime = resultTime.data.formatted;
-        this.setState({
-          zoneTimeList: [...this.state.zoneTimeList, actualTime]
-        },()=>{console.log(this.state.zoneTimeList);})
-      })
-  }
-
-  getTimeFromIp = ()=>{
-    axios({
-      url: 'https://api.ipify.org/?format=json',
-      method: 'GET',
-      responseType: 'json'
-    }).then((publicAddress) => {
-      const ipAddress = publicAddress.data.ip;
-      axios({
-        url: `https://worldtimeapi.org/api/ip/${ipAddress}`,
-        method: 'GET',
-        responseType: 'json'
-      }).then((resultTime) => {
-        this.setState({
-          publicIp: publicAddress.data.ip,
-          timeFromIp: resultTime.data.datetime
-        })
-      })
     })
+    this.getTimeFromZone();
   }
+
+  getTimeFromZone = ()=>{
+    axios({
+        url: 'https://api.timezonedb.com/v2.1/list-time-zone',
+        method: 'GET',
+        responseType: 'json',
+        params: {
+          key: '16OZ7ZU6JZBK',
+          format: 'json',
+          fields: 'zoneName,gmtOffset,timestamp'
+        }
+      }).then((result) => {
+        result.data.zones.forEach((zTime)=>{
+          for(let i = 0; i < this.state.selectedZoneList.length; i++){
+            if ((zTime.zoneName).toUpperCase() === this.state.selectedZoneList[i].toUpperCase()) { 
+              // console.log("zTime", zTime);
+              this.setState({
+                timeZone : zTime,
+              })
+              break;
+            }
+          }
+        })
+      });
+  }
+  
 
   render(){
-    // let timeClock2 = 'Mon Apr 27 2020 17:11:12 GMT-0400 (Eastern Daylight Time)';
-    console.log(this.state.timeFromZone);
+    // console.log(this.state.timeZone);
     return (
       <div className="App wrapper">
         <InfoButton />
         <h1>World Clock</h1>
           <AnalogClock 
-          timeProp={new Date()}//this.state.timeFromIp)}
-          clockNumberProp='1'
-        />
+            timeProp={this.state.timeZone}
+            clockNumberProp='0'
+          />
         <SearchTimeZone 
           userSelectionProp={this.updateUserSelection}
         />
-
-        <SelectedZones
-          itemProp={
-            <AnalogClock 
-              timeProp={new Date('Mon Apr 27 2020 18:16:24 GMT-0400 (Eastern Daylight Time)')}//this.state.timeFromZone)}
-              clockNumberProp='2'
-            />
-          } 
-          locationProp="British Colombia"
-          >
-        </SelectedZones>
-        {/* {this.state.userSelection !== '' 
-        ? 
-        :<SelectedZones />
-        } */}
+        
+        <SelectedZones 
+          timeZoneProp = {new Date()}
+          clockNumberProp = '1'
+        />
       </div>
     );
   }
