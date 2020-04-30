@@ -184,7 +184,14 @@ body{
   height:35%;
   left:calc(50% - 4px);
 }
-
+.local-time,
+.country-name{
+  text-align:center;
+  margin: 1rem auto;
+  white-space: nowrap;
+  padding:0.5rem;
+  font-size:2rem;
+}
 /************ Clock designs end **************/
 
 /**** User Search suggestions Start ****/

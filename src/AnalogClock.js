@@ -104,10 +104,11 @@ class AnalogClock extends Component {
                     <div className="number number11">11</div>
                     <div className="number number12">12</div>
                 </div>
-                {/* <p>
-                    {this.state.hours}::{this.state.mins}::{this.state.seconds}
-                </p> */}
-                <p>{this.props.timeProp.countryName}</p>
+                {
+                    this.props.timeProp.countryName === undefined
+                    ?<p className="local-time">Local Time</p>
+                    :<p className="country-name">{this.props.timeProp.countryName}</p>
+                }
             </div>
         )
     }
