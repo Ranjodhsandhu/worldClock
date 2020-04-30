@@ -23,32 +23,29 @@ class App extends Component {
     this.setState({
       selectedZoneList: [...this.state.selectedZoneList, selectedZoneName]
     })
-    this.getTimeFromZone();
+    this.getTimeFromZone(selectedZoneName);
   }
 
-  getTimeFromZone = ()=>{
+
+  getTimeFromZone = (zoneName) => {
     axios({
-        url: 'https://api.timezonedb.com/v2.1/list-time-zone',
-        method: 'GET',
-        responseType: 'json',
-        params: {
-          key: '16OZ7ZU6JZBK',
-          format: 'json',
-          fields: 'zoneName,gmtOffset,timestamp'
-        }
-      }).then((result) => {
-        result.data.zones.forEach((zTime)=>{
-          for(let i = 0; i < this.state.selectedZoneList.length; i++){
-            if ((zTime.zoneName).toUpperCase() === this.state.selectedZoneList[i].toUpperCase()) { 
-              // console.log("zTime", zTime);
-              this.setState({
-                timeZone : zTime,
-              })
-              break;
-            }
-          }
+      url: 'https://api.timezonedb.com/v2.1/get-time-zone',
+      method: 'GET',
+      responseType: 'json',
+      params: {
+        key: '16OZ7ZU6JZBK',
+        format: 'json',
+        by: 'zone',
+        zone: zoneName,
+        fields: 'zoneName,gmtOffset,timestamp',
+      }
+    }).then((result) => {
+        console.log(result.data);
+        this.setState({
+          timeZone: result.data,
         })
-      });
+      }
+    )
   }
   
 
