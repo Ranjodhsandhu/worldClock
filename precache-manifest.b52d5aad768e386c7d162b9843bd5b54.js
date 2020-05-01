@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "a097b724c2b38fc11eeb2059ffad3493",
+    "revision": "243d4ac78d02fa168b540c381a531802",
     "url": "/worldClock/index.html"
   },
   {
