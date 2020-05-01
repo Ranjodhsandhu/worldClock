@@ -331,6 +331,7 @@ input.search {
   padding: 20px;
   flex-grow:1;
   flex-shrink:1;
+  height:fit-content;
 }
 
 .times-icon{

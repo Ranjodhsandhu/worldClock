@@ -38,9 +38,15 @@ class SelectedZones extends Component{
                 lat = latLngObject[result.data.countryCode].Lat;
                 lng = latLngObject[result.data.countryCode].Lng;
             }
+            const copyOfTimeZoneArray = [...this.state.timeZoneArray];
+            const copyOfCoordinatesArray = [...this.state.coordinatesArray];
+
+            const tzArray = copyOfTimeZoneArray.filter(z => z.zoneName !== result.data.zoneName );
+            const cArray = copyOfCoordinatesArray.filter(z => z.zoneName !== result.data.zoneName);
+
             this.setState({
-                timeZoneArray: [...this.state.timeZoneArray, result.data],
-                coordinatesArray: [...this.state.coordinatesArray,`${lat},${lng}`]
+                timeZoneArray: [...tzArray, result.data],
+                coordinatesArray: [...cArray,{zoneName:`${result.data.zoneName}`,latlng:`${lat},${lng}`}]
             })
         }
         )
@@ -62,37 +68,53 @@ class SelectedZones extends Component{
             })
         })
     }
-    deleteZone = (zoneId) => {
-        console.log('deleted',zoneId);
+    deleteZone = (zoneId,zoneName) => {
+        
         const itemRef = firebase.database().ref(zoneId);
         itemRef.remove();
-        this.setState({
+        
+        const copyOfZoneArray = [...this.state.zoneArray];
+        const copyOfTimeZoneArray = [...this.state.timeZoneArray];
+        const copyOfCoordinatesArray = [...this.state.coordinatesArray];
 
+        const tzArray = copyOfTimeZoneArray.filter((z)=>{return z.zoneName !== zoneName});
+        const cArray = copyOfCoordinatesArray.filter(c=>{return c.zoneName !== zoneName});
+        const zArray = copyOfZoneArray.filter((z)=>{return z.zoneId !== zoneId});
+
+        this.setState({
+            timeZoneArray: tzArray,
+            coordinatesArray:cArray,
+            zoneArray:zArray,
         });
     }
     render(){
         return(
             <ul className="time-zone-list">
-                {this.state.timeZoneArray.map((timeZone,idx)=>{
-                    
+                {
+                this.state.timeZoneArray.length > 0
+                ? this.state.timeZoneArray.map((timeZone,idx)=>{
                     return(  
                         <li key={this.state.zoneArray[idx].zoneId}>
                             {<FontAwesomeIcon 
                             icon={faTimes} 
-                            onClick={() => { this.deleteZone(this.state.zoneArray[idx].zoneId) }}
+                            onClick={() => 
+                                this.deleteZone(this.state.zoneArray[idx].zoneId,
+                                                timeZone.zoneName) 
+                                }
                             className="times-icon"/>}
-
                             <div>
                                 <AnalogClock
                                     timeProp={timeZone}
-                                    coordinatesProp={this.state.coordinatesArray[idx]}
+                                    coordinatesProp={this.state.coordinatesArray[idx].latlng}
                                     clockNumberProp={idx+1}
                                 />
                             </div>
                         </li>
                     )
                 })
+                : <p>Favorite list Empty</p>
                 }
+
             </ul>
         )
     }

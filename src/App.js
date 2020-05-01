@@ -6,6 +6,7 @@ import AnalogClock from './AnalogClock';
 import SelectedZones from './SelectedZones';
 import latLngObject from './latLngObject';
 import firebase from './firebase';
+import { Alert } from 'react-alert';
 import './App.css';
 
 class App extends Component {
@@ -60,6 +61,8 @@ class App extends Component {
     if (this.state.timeZone !== '') {
       const dbRef = firebase.database().ref();
       dbRef.push(this.state.timeZone.zoneName);
+    }else{
+      alert('Select a different Time Zone!')
     }
   }
 

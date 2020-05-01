@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import { setDriftlessInterval} from 'driftless';
+import { setDriftlessInterval, clearDriftless} from 'driftless';
 
 
 class AnalogClock extends Component {
@@ -27,7 +27,10 @@ class AnalogClock extends Component {
         }, 
         1000);
     }
-    
+    componentWillUnmount(){
+        clearDriftless(this.timeId);
+    }
+
     setDate = () => {
         if (Object.keys(this.props.timeProp).length){
             const zTime = this.props.timeProp;
