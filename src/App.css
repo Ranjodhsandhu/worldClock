@@ -14,7 +14,7 @@ a,abbr,acronym,address,applet,article,aside,audio,b,big,blockquote,body,canvas,c
   box-sizing:border-box;
 }
 body{
-  background:linear-gradient(to right, hsl(200,100%,50%),hsl(175,100%,50%));
+  background:linear-gradient(to right, hsl(180,100%,50%),hsl(205,100%,50%));
 }
 
 .wrapper{
@@ -55,7 +55,7 @@ body{
   text-align:right;
 }
 .info-inner{
-  background:rgb(6, 238, 184);
+  background:rgb(0, 186, 143);
   padding:1em;
   border-radius:10px;
   width:200px;
@@ -280,14 +280,13 @@ input.search {
   left:0;
   right:0;
   bottom:0;
-  /*perspective: 20px;*/
 }
 
 
 .suggestions li {
   background: black;
   list-style: none;
-  border-bottom: 1px solid #D8D8D8;
+  border-bottom: 1px solid #C8C8C8;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.14);
   margin: 0;
   padding: 20px;
@@ -300,17 +299,17 @@ input.search {
 }
 
 .suggestions li:nth-child(even) {
-  transform: perspective(100px) rotateX(5deg) translateY(2px) scale(1.001);
+  transform: perspective(100px) rotateX(2deg) translateY(2px) scale(1.001);
   background: linear-gradient(to bottom,  #ffffff 0%,#EFEFEF 100%);
 }
 
 .suggestions li:nth-child(odd) {
-  transform: perspective(100px) rotateX(-5deg) translateY(3px);
+  transform: perspective(100px) rotateX(-2deg) translateY(3px);
   background: linear-gradient(to top,  #ffffff 0%,#EFEFEF 100%);
 }
 
 .highLight {
-  background-color: #ffc600;
+  background:rgb(255, 234, 8);
 }
 
 /**** User Search suggestions End ****/
@@ -326,12 +325,16 @@ input.search {
 }
 .time-zone-list li{ 
   list-style: none;
-  border: 1px solid #D8D8D8;
   margin: 20px ;
   padding: 20px;
   flex-grow:1;
   flex-shrink:1;
-  height:fit-content;
+  height:max-content;
+  border: 10px solid #F7F7F7;
+  border-radius: 5px;
+  box-shadow: 
+    0 0 10px rgba(0, 0, 0, 0.1), 
+    inset 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
 .times-icon{
@@ -346,4 +349,19 @@ input.search {
   color:white;
 }
 
+.empty-list{
+  margin:2rem auto;
+  font-size:2rem;
+}
 /**** User Selected Zone Time List End ****/
+
+
+/***** Footer Styles start *****/
+footer{
+  margin:2rem auto;
+  font-size:1.2rem;
+  text-align:center;
+}
+
+
+/***** Footer Styles end *****/

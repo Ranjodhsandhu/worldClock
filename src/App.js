@@ -6,7 +6,6 @@ import AnalogClock from './AnalogClock';
 import SelectedZones from './SelectedZones';
 import latLngObject from './latLngObject';
 import firebase from './firebase';
-import { Alert } from 'react-alert';
 import './App.css';
 
 class App extends Component {
@@ -58,36 +57,51 @@ class App extends Component {
   }
   addToFavorite = (event) => {
     event.preventDefault();
-    if (this.state.timeZone !== '') {
+    if (Object.keys(this.state.timeZone).length) {
       const dbRef = firebase.database().ref();
-      dbRef.push(this.state.timeZone.zoneName);
-    }else{
-      alert('Select a different Time Zone!')
+
+      let flag = false;
+      dbRef.on('value', (result) => {
+        const data = result.val();
+        for (let key in data) {
+          if(data[key] === this.state.timeZone.zoneName){
+            flag = true;
+          }
+        }
+      })
+      if(!flag) dbRef.push(this.state.timeZone.zoneName);
     }
   }
 
   render(){
     return (
       <div className="App wrapper">
-        <InfoButton />
-        <h1>World Clock</h1>
-        <AnalogClock 
-          timeProp={this.state.timeZone}
-          coordinatesProp={this.state.coordinates}
-          clockNumberProp='0'
-        />
-        <form action="" className="favorite-form">
-          <button 
-          className="favorite-button" 
-          type="submit" 
-          onClick={this.addToFavorite}>Add To Favorite</button>
-        </form>
-      
-        <SearchTimeZone 
-          userSelectionProp={this.updateUserSelection}
-        />
+        <header>
+          <InfoButton />
+          <h1>World Clock</h1>
+        </header>
+        <main>
+          <AnalogClock 
+            timeProp={this.state.timeZone}
+            coordinatesProp={this.state.coordinates}
+            clockNumberProp='0'
+          />
+          <form action="" className="favorite-form">
+            <button 
+            className="favorite-button" 
+            type="submit" 
+            onClick={this.addToFavorite}>Add To Favorite</button>
+          </form>
         
-        <SelectedZones />
+          <SearchTimeZone 
+            userSelectionProp={this.updateUserSelection}
+          />
+          
+          <SelectedZones />
+        </main>
+        <footer>
+          <p>&copy; <a href="https://www.ranjodhsingh.ca">Ranjodh Singh</a>, 2020. Code <a href="https://github.com/Ranjodhsandhu/worldClock">here</a></p>
+        </footer>
       </div>
     );
   }

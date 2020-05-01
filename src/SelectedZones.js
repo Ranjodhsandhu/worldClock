@@ -112,7 +112,7 @@ class SelectedZones extends Component{
                         </li>
                     )
                 })
-                : <p>Favorite list Empty</p>
+                : <div className="empty-list"><p>Favorite list Empty</p></div>
                 }
 
             </ul>
