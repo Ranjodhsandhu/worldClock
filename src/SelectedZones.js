@@ -4,11 +4,15 @@ import axios from 'axios';
 import firebase from './firebase';
 import latLngObject from './latLngObject';
 import { setDriftlessTimeout } from 'driftless';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/fontawesome-free-solid';
+
 class SelectedZones extends Component{
 
     constructor(){
         super();
         this.state = {
+            zoneArray:[],
             timeZoneArray:[],
             coordinatesArray:[],
         }
@@ -51,18 +55,33 @@ class SelectedZones extends Component{
             let flag = 0;
             for (let key in data) {
                 zoneArr.push({ zoneName: data[key], zoneId: key });
-                setDriftlessTimeout(()=>this.getTimeFromZone(data[key]),(1100 * flag++));
+                setDriftlessTimeout(()=>this.getTimeFromZone(data[key]),(1200 * flag++));
             }
+            this.setState({
+                zoneArray:zoneArr
+            })
         })
     }
-    render(){
+    deleteZone = (zoneId) => {
+        console.log('deleted',zoneId);
+        const itemRef = firebase.database().ref(zoneId);
+        itemRef.remove();
+        this.setState({
 
+        });
+    }
+    render(){
         return(
             <ul className="time-zone-list">
                 {this.state.timeZoneArray.map((timeZone,idx)=>{
+                    
                     return(  
-                        <li key={idx}>
-                            {<button type="button" onClick={()=>console.log('Wanna delete me',idx+1)}style={{padding:`10px`}}>Delete me!</button>}
+                        <li key={this.state.zoneArray[idx].zoneId}>
+                            {<FontAwesomeIcon 
+                            icon={faTimes} 
+                            onClick={() => { this.deleteZone(this.state.zoneArray[idx].zoneId) }}
+                            className="times-icon"/>}
+
                             <div>
                                 <AnalogClock
                                     timeProp={timeZone}
