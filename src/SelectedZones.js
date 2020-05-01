@@ -6,6 +6,7 @@ import latLngObject from './latLngObject';
 import { setDriftlessTimeout } from 'driftless';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/fontawesome-free-solid';
+import Swal from 'sweetalert2';;
 
 class SelectedZones extends Component{
 
@@ -70,23 +71,44 @@ class SelectedZones extends Component{
     }
     deleteZone = (zoneId,zoneName) => {
         
-        const itemRef = firebase.database().ref(zoneId);
-        itemRef.remove();
-        
-        const copyOfZoneArray = [...this.state.zoneArray];
-        const copyOfTimeZoneArray = [...this.state.timeZoneArray];
-        const copyOfCoordinatesArray = [...this.state.coordinatesArray];
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.value) {
+                const copyOfZoneArray = [...this.state.zoneArray];
+                const copyOfTimeZoneArray = [...this.state.timeZoneArray];
+                const copyOfCoordinatesArray = [...this.state.coordinatesArray];
 
-        const tzArray = copyOfTimeZoneArray.filter((z)=>{return z.zoneName !== zoneName});
-        const cArray = copyOfCoordinatesArray.filter(c=>{return c.zoneName !== zoneName});
-        const zArray = copyOfZoneArray.filter((z)=>{return z.zoneId !== zoneId});
+                const tzArray = copyOfTimeZoneArray.filter((z)=>{return z.zoneName !== zoneName});
+                const cArray = copyOfCoordinatesArray.filter(c=>{return c.zoneName !== zoneName});
+                const zArray = copyOfZoneArray.filter((z)=>{return z.zoneId !== zoneId});
 
-        this.setState({
-            timeZoneArray: tzArray,
-            coordinatesArray:cArray,
-            zoneArray:zArray,
-        });
+                this.setState({
+                    timeZoneArray: tzArray,
+                    coordinatesArray:cArray,
+                    zoneArray:zArray,
+                },()=>{
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Deleting...',
+                            timer:3000,
+                            showConfirmButton:false
+                            }
+                        );
+                        const itemRef = firebase.database().ref(zoneId);
+                        itemRef.remove();
+                });
+            
+            }
+        })
     }
+
     render(){
         return(
             <ul className="time-zone-list">

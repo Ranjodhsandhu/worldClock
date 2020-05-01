@@ -21,7 +21,10 @@
     "react-alert-template-basic": "^1.0.0",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
-    "react-string-replace": "^0.4.4"
+    "react-string-replace": "^0.4.4",
+    "sweetalert-react": "^0.4.11",
+    "sweetalert2": "^9.10.12",
+    "sweetalert2-react-content": "^3.0.1"
   },
   "scripts": {
     "start": "react-scripts start",

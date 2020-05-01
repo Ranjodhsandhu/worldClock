@@ -1,5 +1,6 @@
 import React,{Component} from 'react';
 import zoneListObject from './zoneListObject';
+import Swal from 'sweetalert2';
 
 class SearchTimeZone extends Component{
     constructor(){
@@ -22,7 +23,16 @@ class SearchTimeZone extends Component{
                 const updateSelection = (selection)=>{
                     this.props.userSelectionProp(selection);
                 }
-                if(text !== 'undefined') updateSelection(text);
+                if(text !== 'Country Name' && text !== 'or Zone Name' && text !== 'undefined'){
+                    updateSelection(text);
+                }else{
+                    Swal.fire({
+                        icon:'info',
+                        title: 'Type in input field',
+                        showConfirmButton: false,
+                        timer: 1000
+                    })
+                }
             }
         });
     }

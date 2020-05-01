@@ -6,6 +6,7 @@ import AnalogClock from './AnalogClock';
 import SelectedZones from './SelectedZones';
 import latLngObject from './latLngObject';
 import firebase from './firebase';
+import Swal from 'sweetalert2';
 import './App.css';
 
 class App extends Component {
@@ -57,19 +58,45 @@ class App extends Component {
   }
   addToFavorite = (event) => {
     event.preventDefault();
+    if (!Object.keys(this.state.timeZone).length) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Please Select a Zone or Country',
+        showConfirmButton: false,
+        timer: 2000
+      });
+    }
     if (Object.keys(this.state.timeZone).length) {
       const dbRef = firebase.database().ref();
-
       let flag = false;
       dbRef.on('value', (result) => {
         const data = result.val();
-        for (let key in data) {
-          if(data[key] === this.state.timeZone.zoneName){
-            flag = true;
+        if(Object.keys(data).length === 4){
+          flag = true;
+          Swal.fire({
+            icon: 'warning',
+            title: 'Max Limit of Four Zones',
+            showConfirmButton: false,
+            timer: 2000
+          })
+        }else {
+          for (let key in data) {
+            if(data[key] === this.state.timeZone.zoneName){
+              flag = true;
+            }
           }
         }
       })
-      if(!flag) dbRef.push(this.state.timeZone.zoneName);
+      
+      if(!flag) {
+        dbRef.push(this.state.timeZone.zoneName);
+        Swal.fire({
+          icon: 'success',
+          title: 'Added To Favorite',
+          showConfirmButton: false,
+          timer: 2000
+        })
+      }
     }
   }
 
@@ -92,7 +119,6 @@ class App extends Component {
             type="submit" 
             onClick={this.addToFavorite}>Add To Favorite</button>
           </form>
-        
           <SearchTimeZone 
             userSelectionProp={this.updateUserSelection}
           />
