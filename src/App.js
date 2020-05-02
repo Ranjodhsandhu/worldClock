@@ -123,7 +123,7 @@ class App extends Component {
           <SearchTimeZone 
             userSelectionProp={this.updateUserSelection}
           />
-          
+          <h2 className="favorite-zone">Favorite Zones</h2>
           <SelectedZones />
         </main>
         <footer>

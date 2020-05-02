@@ -134,7 +134,7 @@ class AnalogClock extends Component {
                 <p className="digital-time">
                     {digDay} {digMonth} {digDate}, {digHours}:{digMins} {postFix}
                 </p>
-                <h2 className="country-name">{countryName}</h2>
+                <h3 className="country-name">{countryName}</h3>
             </section>
         )
     }
