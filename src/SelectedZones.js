@@ -134,7 +134,7 @@ class SelectedZones extends Component{
                         </li>
                     )
                 })
-                : <div className="empty-list"><p>Favorite list Empty</p></div>
+                : <div className="empty-list"><p>Select Zone or Country to add to Favorite List</p></div>
                 }
 
             </ul>
