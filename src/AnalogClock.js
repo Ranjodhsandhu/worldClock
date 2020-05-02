@@ -8,7 +8,7 @@ class AnalogClock extends Component {
         super();
         this.state = {
             now: new Date(),
-            mapUrl:'https://open.mapquestapi.com/staticmap/v5/map?key=ozwRV4KrZgLGMjKBYbnTIZBWQAN4JZBn&center=60,-95&size=200,200&zoom=2&format=png',
+            mapUrl:'https://open.mapquestapi.com/staticmap/v5/map?key=ozwRV4KrZgLGMjKBYbnTIZBWQAN4JZBn&center=60,-95&size=200,200&zoom=1&format=png',
             zone:'',
             seconds:(new Date()).getSeconds(),
             mins: (new Date()).getMinutes(),
@@ -38,7 +38,7 @@ class AnalogClock extends Component {
             date = new Date(date.toLocaleString('en-US', { timeZone: `${zTime.zoneName}` }));
             this.setState({
                 now: date,
-                mapUrl:`https://open.mapquestapi.com/staticmap/v5/map?key=ozwRV4KrZgLGMjKBYbnTIZBWQAN4JZBn&center=${this.props.coordinatesProp}&size=200,200&zoom=2&format=png`,
+                mapUrl:`https://open.mapquestapi.com/staticmap/v5/map?key=ozwRV4KrZgLGMjKBYbnTIZBWQAN4JZBn&center=${this.props.coordinatesProp}&size=200,200&zoom=1&format=png`,
                 zone: zTime.zoneName,
                 seconds: date.getSeconds(),
                 mins: date.getMinutes(),
@@ -84,7 +84,10 @@ class AnalogClock extends Component {
     
 
     render(){
-        const isLight = this.state.hours >= 6 && this.state.hours < 18;
+        let digHours = this.state.hours;
+        let digMins = this.state.mins;
+        
+        const isLight = digHours >= 6 && digHours < 18;
         const mapURL = isLight ? this.state.mapUrl + '&type=light' : this.state.mapUrl + '&type=dark';
         const textColor = isLight ? 'black':'white';
         let countryName = '';
@@ -97,32 +100,42 @@ class AnalogClock extends Component {
             countryName = propCountryName;
         }
 
+        const postFix = digHours >= 12 && digHours <=24 ? 'PM':'AM';
+        digHours = digHours >= 13 ? (digHours-12): digHours;
+        digMins = digMins >= 0 && digMins < 10 ? '0'+digMins : digMins;
+        const digDate = this.state.now.getDate();
+        const digMonth = this.state.now.toString().split(' ')[1];
+        const digDay = this.state.now.toString().split(' ')[0];
+
         return (
-            <div 
-                className={isLight?'clock light-background' :'clock dark-background'} 
-                style={{backgroundImage:`url(${mapURL})`}}
-            >
-                <div className='clock-face' style={{color:`${textColor}`}}>
-                    <div className='hand hour-hand'></div>
-                    <div className='hand min-hand'></div>
-                    <div className='hand second-hand'></div>
-                    <div className="number number1"><p>1</p></div>
-                    <div className="number number2"><p>2</p></div>
-                    <div className="number number3"><p>3</p></div>
-                    <div className="number number4"><p>4</p></div>
-                    <div className="number number5"><p>5</p></div>
-                    <div className="number number6"><p>6</p></div>
-                    <div className="number number7"><p>7</p></div>
-                    <div className="number number8"><p>8</p></div>
-                    <div className="number number9"><p>9</p></div>
-                    <div className="number number10"><p>10</p></div>
-                    <div className="number number11"><p>11</p></div>
-                    <div className="number number12"><p>12</p></div>
+            <section className="clock-section">
+                <div 
+                    className={isLight?'clock light-background' :'clock dark-background'} 
+                    style={{backgroundImage:`url(${mapURL})`}}
+                >
+                    <div className='clock-face' style={{color:`${textColor}`}}>
+                        <div className='hand hour-hand'></div>
+                        <div className='hand min-hand'></div>
+                        <div className='hand second-hand'></div>
+                        <div className="number number1"><p>1</p></div>
+                        <div className="number number2"><p>2</p></div>
+                        <div className="number number3"><p>3</p></div>
+                        <div className="number number4"><p>4</p></div>
+                        <div className="number number5"><p>5</p></div>
+                        <div className="number number6"><p>6</p></div>
+                        <div className="number number7"><p>7</p></div>
+                        <div className="number number8"><p>8</p></div>
+                        <div className="number number9"><p>9</p></div>
+                        <div className="number number10"><p>10</p></div>
+                        <div className="number number11"><p>11</p></div>
+                        <div className="number number12"><p>12</p></div>
+                    </div>
                 </div>
-                {
-                    <p className="country-name">{countryName}</p>
-                }
-            </div>
+                <p className="digital-time">
+                    {digDay} {digMonth} {digDate}, {digHours}:{digMins} {postFix}
+                </p>
+                <p className="country-name">{countryName}</p>
+            </section>
         )
     }
 }

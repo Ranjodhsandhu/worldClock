@@ -127,7 +127,7 @@ class App extends Component {
           <SelectedZones />
         </main>
         <footer>
-          <p>&copy; <a href="https://www.ranjodhsingh.ca">Ranjodh Singh</a>, 2020. Code <a href="https://github.com/Ranjodhsandhu/worldClock">here</a></p>
+          <p>&copy; <a href="https://www.ranjodhsingh.ca">Ranjodh Singh</a>, 2020. Reference from Javscript30 Clock by Wesbos.</p>
         </footer>
       </div>
     );

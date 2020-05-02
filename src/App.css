@@ -99,12 +99,19 @@ body{
 
 
 /************ Clock designs start **************/
+section.clock-section{
+  margin:0 auto;
+  display:flex;
+  flex-direction:column;
+  justify-content: center;
+  align-items: center;
+}
 .clock {
   width:200px;
   height:200px;
   border: 5px solid white;
   border-radius: 50%;
-  margin: 50px auto;
+  margin: 1rem auto;
   position: relative;
   padding: 0.5rem;
   z-index:-10;
@@ -197,11 +204,12 @@ body{
   height:35%;
   left:calc(50% - 4px);
 }
+
 .favorite-button,
 .local-time,
 .country-name{
   text-align:center;
-  margin: 1rem auto;
+  margin: 0.5rem auto;
 }
 
 .local-time,
@@ -243,6 +251,13 @@ body{
   justify-content: center;
   align-items: center;
 }
+
+.digital-time{
+  text-align:center;
+  margin:0 auto;
+  font-size:1.2rem;
+}
+
 /************ Clock designs end **************/
 
 /**** User Search suggestions Start ****/

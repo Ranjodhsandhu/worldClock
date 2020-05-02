@@ -101,7 +101,12 @@ class SearchTimeZone extends Component{
                 />
                 <FontAwesomeIcon
                     icon={faTrashAlt}
-                    onClick={() => { this.setState({userInput:''})}}
+                    onClick={() => { 
+                        console.log(document.getElementsByClassName('suggestions')[0]);
+                        document.getElementsByClassName('suggestions')[0].innerHtml = `<li>Country Name</li>
+                        <li>or Zone Name</li>`;
+                        this.setState({userInput:''});
+                    }}
                     className="clear-input"
                     aria-label="Clear Input"
                 />
