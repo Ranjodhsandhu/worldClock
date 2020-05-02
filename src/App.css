@@ -15,6 +15,7 @@ a,abbr,acronym,address,applet,article,aside,audio,b,big,blockquote,body,canvas,c
 }
 body{
   background:linear-gradient(to right, hsl(180,100%,50%),hsl(205,100%,50%));
+  font-size:62.5%;
 }
 
 .wrapper{
@@ -44,6 +45,7 @@ body{
   top:2%;
   left:5%;
   z-index:10;
+  font-size:1.4rem;
 }
 .info-outer{
   border-radius:10px;
@@ -58,7 +60,7 @@ body{
   background:rgb(0, 186, 143);
   padding:1em;
   border-radius:10px;
-  width:200px;
+  width:250px;
   clip-path:circle(10% at 10% 20%);
   transition:all 0.5s ease-in-out;
   cursor:pointer;
@@ -70,7 +72,9 @@ body{
 }
 .info-inner p{
   color:white;
-  font-size:0.8rem;
+  font-size:1rem;
+  line-height: 1rem;
+  margin-top:0.5rem;
 }
 .info-inner:hover,
 .info-inner:active,
@@ -85,7 +89,7 @@ body{
   font-weight:bold;
   transition:color 0.5s;
   position: absolute;
-  top:12%;
+  top:13%;
   left:9%;
 }
 .info-inner:active span,
@@ -303,6 +307,7 @@ input.search {
 
 .suggestions li {
   background: black;
+  font-size:1.2rem;
   list-style: none;
   border-bottom: 1px solid #C8C8C8;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.14);
@@ -316,7 +321,7 @@ input.search {
 
 }
 .suggestions li:nth-child(even) {
-  background: linear-gradient(to bottom,  #ffffff 0%,#EFEFEF 100%);
+  background: linear-gradient(to bottom,  #ffffff 0%,#EEEEEE 100%);
 }
 
 .suggestions li:nth-child(odd) {
@@ -363,6 +368,12 @@ input.search {
   box-shadow: 
     0 0 10px rgba(0, 0, 0, 0.1), 
     inset 0 0 5px rgba(0, 0, 0, 0.2);
+  background-image: url('./images/mine.jpg');
+  z-index:0;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color:black;
 }
 
 .times-icon{
@@ -390,6 +401,11 @@ footer{
   margin:2rem auto;
   font-size:1.2rem;
   text-align:center;
+  line-height: 1.4rem;
+}
+footer a{
+  text-decoration:none;
+  color:blue;
 }
 
 
