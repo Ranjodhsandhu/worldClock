@@ -87,6 +87,16 @@ class AnalogClock extends Component {
         const isLight = this.state.hours >= 6 && this.state.hours < 18;
         const mapURL = isLight ? this.state.mapUrl + '&type=light' : this.state.mapUrl + '&type=dark';
         const textColor = isLight ? 'black':'white';
+        let countryName = '';
+        const propCountryName = this.props.timeProp.countryName;
+        if (propCountryName === undefined){
+            countryName = 'Local Time';
+        }else if(propCountryName.length >= 10){
+            countryName = propCountryName.match(/\b\w/g).join('');
+        }else{
+            countryName = propCountryName;
+        }
+
         return (
             <div 
                 className={isLight?'clock light-background' :'clock dark-background'} 
@@ -110,9 +120,7 @@ class AnalogClock extends Component {
                     <div className="number number12"><p>12</p></div>
                 </div>
                 {
-                    this.props.timeProp.countryName === undefined
-                    ?<p className="local-time">Local Time</p>
-                    :<p className="country-name">{this.props.timeProp.countryName}</p>
+                    <p className="country-name">{countryName}</p>
                 }
             </div>
         )

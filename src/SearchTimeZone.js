@@ -1,6 +1,8 @@
 import React,{Component} from 'react';
 import zoneListObject from './zoneListObject';
 import Swal from 'sweetalert2';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrashAlt} from '@fortawesome/fontawesome-free-solid';
 
 class SearchTimeZone extends Component{
     constructor(){
@@ -36,28 +38,7 @@ class SearchTimeZone extends Component{
             }
         });
     }
-    render(){
-        return(
-            <form id="search" className="search-form" action="" autoComplete="off" onSubmit={(event) => 
-                event.preventDefault()}>
-                <label htmlFor="search" ></label>
-                <input 
-                className="search" 
-                type="text" 
-                name="search" 
-                id="search-input"
-                placeholder="Country or Zone" 
-                onKeyUp={this.displayTimeZoneList} 
-                onChange={this.displayTimeZoneList}/>
-                <div className="listContainer">
-                    <ul className="suggestions" >
-                        <li>Country Name</li>
-                        <li>or Zone Name</li>
-                    </ul>
-                </div>
-            </form>
-        )
-    }
+    
     displayTimeZoneList = () => {
         const matchWord = document.getElementsByClassName('search')[0].value;
         const matchedArray = this.findMatches(matchWord);
@@ -87,6 +68,35 @@ class SearchTimeZone extends Component{
             const regex = new RegExp(matchWord,'gi');
             return zone.countryName.match(regex) || zone.zoneName.match(regex);
         });
+    }
+
+    render() {
+        return (
+            <form id="search" className="search-form" action="" autoComplete="off" onSubmit={(event) => event.preventDefault()}>
+                <label htmlFor="search" aria-label="Enter Country or Zone name"></label>
+                <input
+                    className="search"
+                    type="text"
+                    name="search"
+                    id="search-input"
+                    placeholder="Country or Zone"
+                    onKeyUp={this.displayTimeZoneList}
+                    onChange={this.displayTimeZoneList}
+                />
+                <FontAwesomeIcon
+                    icon={faTrashAlt}
+                    onClick={() => { document.getElementById('search-input').val('')}}
+                    className="clear-input"
+                    aria-label="Clear Input"
+                />
+                <div className="listContainer">
+                    <ul className="suggestions" >
+                        <li>Country Name</li>
+                        <li>or Zone Name</li>
+                    </ul>
+                </div>
+            </form>
+        )
     }
 }
 

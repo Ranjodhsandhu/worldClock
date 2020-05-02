@@ -71,7 +71,8 @@ class App extends Component {
       let flag = false;
       dbRef.on('value', (result) => {
         const data = result.val();
-        if(Object.keys(data).length === 4){
+        
+        if(data  && Object.keys(data).length === 4){
           flag = true;
           Swal.fire({
             icon: 'warning',
