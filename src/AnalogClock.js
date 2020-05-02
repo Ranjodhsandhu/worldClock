@@ -91,7 +91,7 @@ class AnalogClock extends Component {
         const propCountryName = this.props.timeProp.countryName;
         if (propCountryName === undefined){
             countryName = 'Local Time';
-        }else if(propCountryName.length >= 10){
+        }else if(propCountryName.length >= 12){
             countryName = propCountryName.match(/\b\w/g).join('');
         }else{
             countryName = propCountryName;

@@ -8,38 +8,39 @@ class SearchTimeZone extends Component{
     constructor(){
         super();
         this.state = {
-            timeZoneList: zoneListObject
+            timeZoneList: zoneListObject,
+            userInput:'',
         }
     }
-    componentDidMount(){
-        const searchForm = document.getElementById('search');
-        searchForm.addEventListener('click',(event)=>{
-            if(event.target.localName === 'li' || event.target.localName === 'span' ){
-                document.getElementById('search-input').value = '';
-                document.getElementsByClassName('suggestions')[0].innerHTML = `<li>Country Name</li>
-                <li>or Zone Name</li>`;
-                let text = event.target.innerText;
-                if(event.target.localName === 'span' && event.target.className === 'highLight'){
-                    text = event.target.parentNode.innerText;
-                }
-                const updateSelection = (selection)=>{
-                    this.props.userSelectionProp(selection);
-                }
-                if(text !== 'Country Name' && text !== 'or Zone Name' && text !== 'undefined'){
-                    updateSelection(text);
-                }else{
-                    Swal.fire({
-                        icon:'info',
-                        title: 'Type in input field',
-                        showConfirmButton: false,
-                        timer: 1000
-                    })
-                }
+
+    handleFormClick = (event) => {
+        if (event.target.localName === 'li' || event.target.localName === 'span') {
+            document.getElementsByClassName('suggestions')[0].innerHTML = `<li>Country Name</li>
+            <li>or Zone Name</li>`;
+            let text = event.target.innerText;
+            if (event.target.localName === 'span' && event.target.className === 'highLight') {
+                text = event.target.parentNode.innerText;
             }
-        });
+            const updateSelection = (selection) => {
+                this.props.userSelectionProp(selection);
+            }
+            if (text !== 'Country Name' && text !== 'or Zone Name' && text !== 'undefined') {
+                updateSelection(text);
+            } else {
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Type in input field',
+                    showConfirmButton: false,
+                    timer: 1000
+                })
+            }
+            this.setState({
+                userInput:''
+            })
+        }
     }
-    
-    displayTimeZoneList = () => {
+
+    displayTimeZoneList = (event) => {
         const matchWord = document.getElementsByClassName('search')[0].value;
         const matchedArray = this.findMatches(matchWord);
         
@@ -52,15 +53,19 @@ class SearchTimeZone extends Component{
             
             return `<li><span class='zone'>${countryName}, ${zoneName}</span></li>`
         }).join('');
-
+        
         const defaultHtml = `
-            <li>Country Name</li>
-            <li>or Zone Name</li>`;
-
+        <li>Country Name</li>
+        <li>or Zone Name</li>`;
+        
         if(matchWord.length > 0)
-            document.getElementsByClassName('suggestions')[0].innerHTML = html;
+        document.getElementsByClassName('suggestions')[0].innerHTML = html;
         else
-            document.getElementsByClassName('suggestions')[0].innerHTML = defaultHtml;
+        document.getElementsByClassName('suggestions')[0].innerHTML = defaultHtml;
+        
+        this.setState({
+            userInput:event.target.value
+        })
         
     }
     findMatches = (matchWord)=>{
@@ -72,20 +77,31 @@ class SearchTimeZone extends Component{
 
     render() {
         return (
-            <form id="search" className="search-form" action="" autoComplete="off" onSubmit={(event) => event.preventDefault()}>
-                <label htmlFor="search" aria-label="Enter Country or Zone name"></label>
+            <form 
+                id="search" 
+                className="search-form" 
+                action="" 
+                autoComplete="off" 
+                onSubmit={(event) => event.preventDefault()}
+                onClick={this.handleFormClick}
+            >
+                <label 
+                    htmlFor="search" 
+                    aria-label="Enter Country or Zone name"
+                    className="sr-only">Enter Country or Zone name</label>
                 <input
                     className="search"
                     type="text"
                     name="search"
                     id="search-input"
+                    value={this.state.userInput}
                     placeholder="Country or Zone"
                     onKeyUp={this.displayTimeZoneList}
                     onChange={this.displayTimeZoneList}
                 />
                 <FontAwesomeIcon
                     icon={faTrashAlt}
-                    onClick={() => { document.getElementById('search-input').val('')}}
+                    onClick={() => { this.setState({userInput:''})}}
                     className="clear-input"
                     aria-label="Clear Input"
                 />

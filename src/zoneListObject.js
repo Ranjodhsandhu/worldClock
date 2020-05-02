@@ -306,7 +306,7 @@ const zoneListObject =  [
         },
     {
         "countryCode": "BQ",
-        "countryName": "Bonaire, Saint Eustatius and Saba ",
+        "countryName": "Bonaire Saint Eustatius and Saba ",
         "zoneName": "America/Kralendijk"
         },
     {
