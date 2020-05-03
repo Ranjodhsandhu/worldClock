@@ -17,6 +17,7 @@ class SelectedZones extends Component{
             zoneArray:[],
             timeZoneArray:[],
             coordinatesArray:[],
+            online:true
         }
     }
     componentDidMount(){
@@ -39,8 +40,11 @@ class SelectedZones extends Component{
                 timeZoneArray: [...tzArray, result.data],
                 coordinatesArray: [...cArray,{zoneName:`${result.data.zoneName}`,latlng:`${lat},${lng}`}]
             })
-        }
-        )
+        }).catch((error) => {
+            if(error) {
+                setDriftlessTimeout(() => this.getTimeFromZone(zoneName), 2000);
+            }
+        })
     }
     getZonesFromDatabase = ()=>{
         // set up the listener to firebase database
@@ -94,9 +98,9 @@ class SelectedZones extends Component{
                     coordinatesArray:cArray,
                     zoneArray:zArray,
                 },()=>{
-                        showAlert('success','Deleting...',3000);
-                        const itemRef = firebase.database().ref(zoneId);
-                        itemRef.remove();
+                    showAlert('success','Deleting...',3000);
+                    const itemRef = firebase.database().ref(zoneId);
+                    itemRef.remove();
                 });
             
             }
@@ -114,7 +118,9 @@ class SelectedZones extends Component{
                             {<FontAwesomeIcon 
                             icon={faTimes} 
                             onClick={() => 
+                                this.state.online ?
                                 this.deleteZone(this.state.zoneArray[idx].zoneId,timeZone.zoneName) 
+                                : showAlert('warning','No Connection')
                                 }
                             className="times-icon"/>}
                             <div>

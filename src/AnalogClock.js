@@ -89,14 +89,15 @@ class AnalogClock extends Component {
         const isLight = digHours >= 6 && digHours < 18;
         const mapURL = isLight ? this.state.mapUrl + '&type=light' : this.state.mapUrl + '&type=dark';
         const textColor = isLight ? 'black':'white';
-        let countryName = '';
-        const propCountryName = this.props.timeProp.countryName;
-        if (propCountryName === undefined){
-            countryName = 'Local Time';
-        }else if(propCountryName.length >= 12){
-            countryName = propCountryName.match(/\b\w/g).join('');
-        }else{
-            countryName = propCountryName;
+        let zoneName = '';
+        const propZoneName = (this.state.zone).split('/')[1];
+
+        if (propZoneName === undefined) {
+            zoneName = 'Local Time';
+        } else if (propZoneName.length >= 12) {
+            zoneName = propZoneName.match(/\b\w/g).join('');
+        } else {
+            zoneName = propZoneName;
         }
 
         const postFix = digHours >= 12 && digHours <=24 ? 'PM':'AM';
@@ -135,7 +136,7 @@ class AnalogClock extends Component {
                 <p className="digital-time">
                     {digDay} {digMonth} {digDate}, {digHours}:{digMins} {postFix}
                 </p>
-                <h3 className="country-name">{countryName}</h3>
+                <h3 className="country-name">{zoneName}</h3>
             </section>
         )
     }

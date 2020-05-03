@@ -20,7 +20,6 @@ class SearchTimeZone extends Component{
         if (event.target.localName === 'li' || event.target.localName === 'span') {
             let text = event.target.innerText;
             const updateSelection = (selection) => {
-                console.log(selection);
                 this.props.userSelectionProp(selection);
             }
             if (event.target.className === 'highLight'){
