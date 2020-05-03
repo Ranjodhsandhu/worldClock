@@ -11,7 +11,7 @@ class InfoButton extends Component{
                         World Clock
                     </h3>
                     <p>
-                        Get time from around the world with a zone and country name and get to add into your favorite list.
+                        Get time from around the world with a zone or country name. Add to your favorite list for future use.
                     </p>
                 </div>
                 </div>

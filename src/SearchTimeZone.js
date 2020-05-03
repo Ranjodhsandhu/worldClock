@@ -35,6 +35,7 @@ class SearchTimeZone extends Component{
                     timer: 1000
                 })
             }
+            window.scrollTo(0, 0);
             this.setState({
                 userInput:'',
                 html: `<li>Country Name</li>

@@ -39,6 +39,8 @@ h2.favorite-zone{
   text-align: center;
   margin:0.5rem auto;
   padding-top:2.5rem;
+  border-top:1px solid white;
+  border-radius:50%;
 }
 /***** Header styles End *****/
 
@@ -65,7 +67,7 @@ h2.favorite-zone{
   background:rgb(0, 186, 143);
   padding:1em;
   border-radius:10px;
-  width:250px;
+  width:270px;
   clip-path:circle(10% at 10% 20%);
   transition:all 0.5s ease-in-out;
   cursor:pointer;
@@ -360,6 +362,7 @@ input.search {
   align-items: center;
   flex-wrap: wrap;
   margin:0 auto;
+  margin-bottom:5rem;
 }
 .time-zone-list li{ 
   list-style: none;
