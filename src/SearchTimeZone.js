@@ -3,6 +3,7 @@ import zoneListObject from './zoneListObject';
 import Swal from 'sweetalert2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt} from '@fortawesome/fontawesome-free-solid';
+import ReactHtmlParser from 'react-html-parser';
 
 class SearchTimeZone extends Component{
     constructor(){
@@ -10,21 +11,21 @@ class SearchTimeZone extends Component{
         this.state = {
             timeZoneList: zoneListObject,
             userInput:'',
+            html: `<li>Country Name</li>
+            <li>or Zone Name</li>`,
         }
     }
 
     handleFormClick = (event) => {
         if (event.target.localName === 'li' || event.target.localName === 'span') {
-            document.getElementsByClassName('suggestions')[0].innerHTML = `<li>Country Name</li>
-            <li>or Zone Name</li>`;
             let text = event.target.innerText;
-            if (event.target.localName === 'span' && event.target.className === 'highLight') {
-                text = event.target.parentNode.innerText;
-            }
             const updateSelection = (selection) => {
                 this.props.userSelectionProp(selection);
             }
-            if (text !== 'Country Name' && text !== 'or Zone Name' && text !== 'undefined') {
+            if (event.target.localName === 'span' && event.target.className === 'highLight'){
+                text = event.target.parentNode.innerText;
+            }
+            if (text !== 'Country Name' && text !== 'Or Zone Name' && text !== 'undefined'){
                 updateSelection(text);
             } else {
                 Swal.fire({
@@ -35,38 +36,34 @@ class SearchTimeZone extends Component{
                 })
             }
             this.setState({
-                userInput:''
+                userInput:'',
+                html: `<li>Country Name</li>
+                        <li>or Zone Name</li>`,
             })
         }
     }
 
     displayTimeZoneList = (event) => {
-        const matchWord = document.getElementsByClassName('search')[0].value;
+        let dynamicHtml = `<li>Country Name</li><li>or Zone Name</li>`;
+        const matchWord = this.state.userInput;
         const matchedArray = this.findMatches(matchWord);
-        
-        const html = matchedArray.map(zone=>{
-            
-            const regex = new RegExp(matchWord, 'gi');
-            
-            const countryName = zone.countryName.replace(regex, `<span class='highLight'>${matchWord}</span>`) 
-            const zoneName = zone.zoneName.replace(regex,`<span class='highLight'>${matchWord}</span>`) 
-            
-            return `<li><span class='zone'>${countryName}, ${zoneName}</span></li>`
-        }).join('');
-        
-        const defaultHtml = `
-        <li>Country Name</li>
-        <li>or Zone Name</li>`;
-        
-        if(matchWord.length > 0)
-        document.getElementsByClassName('suggestions')[0].innerHTML = html;
-        else
-        document.getElementsByClassName('suggestions')[0].innerHTML = defaultHtml;
-        
+
+        if (matchWord !== '' && matchedArray.length){
+            dynamicHtml = matchedArray.map(zone=>{
+                const regex = new RegExp(matchWord, 'gi');
+                
+                const countryName = zone.countryName.replace(regex, `<span class='highLight'>${matchWord}</span>`);
+
+                const zoneName = zone.zoneName.replace(regex,`<span class='highLight'>${matchWord}</span>`);
+
+                return `<li><span class='zone'>${countryName}, ${zoneName}</span></li>`
+            }).join('');
+        }
+
         this.setState({
-            userInput:event.target.value
+            userInput:event.target.value,
+            html: dynamicHtml
         })
-        
     }
     findMatches = (matchWord)=>{
         return this.state.timeZoneList.filter(zone =>{
@@ -74,7 +71,12 @@ class SearchTimeZone extends Component{
             return zone.countryName.match(regex) || zone.zoneName.match(regex);
         });
     }
-
+    handleDeleteClick = ()=>{
+        this.setState({
+            userInput: '',
+            html: `<li>Country Name</li>
+                    <li>or Zone Name</li>`});
+    }
     render() {
         return (
             <form 
@@ -101,19 +103,13 @@ class SearchTimeZone extends Component{
                 />
                 <FontAwesomeIcon
                     icon={faTrashAlt}
-                    onClick={() => { 
-                        console.log(document.getElementsByClassName('suggestions')[0]);
-                        document.getElementsByClassName('suggestions')[0].innerHtml = `<li>Country Name</li>
-                        <li>or Zone Name</li>`;
-                        this.setState({userInput:''});
-                    }}
+                    onClick={this.handleDeleteClick}
                     className="clear-input"
                     aria-label="Clear Input"
                 />
-                <div className="listContainer">
+                <div className="list-container">
                     <ul className="suggestions" >
-                        <li>Country Name</li>
-                        <li>or Zone Name</li>
+                        {ReactHtmlParser(this.state.html)}
                     </ul>
                 </div>
             </form>

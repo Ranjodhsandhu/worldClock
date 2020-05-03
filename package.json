@@ -20,6 +20,7 @@
     "react-alert": "^7.0.0",
     "react-alert-template-basic": "^1.0.0",
     "react-dom": "^16.13.1",
+    "react-html-parser": "^2.0.2",
     "react-scripts": "3.4.1",
     "react-string-replace": "^0.4.4",
     "sweetalert-react": "^0.4.11",

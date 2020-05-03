@@ -293,7 +293,7 @@ input.search {
     inset 0 0 1px rgba(0, 0, 0, 0.2);
 }
 
-.listContainer{
+.list-container{
   position:relative;
   margin-top:8px;
   margin-bottom:150px;
