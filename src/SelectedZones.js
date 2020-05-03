@@ -45,21 +45,28 @@ class SelectedZones extends Component{
     getZonesFromDatabase = ()=>{
         // set up the listener to firebase database
         const dbRef = firebase.database().ref();
-        dbRef.on('value',(result) => {
-            const data = result.val();
-            const zoneArr = [];
-            let flag = 0;
-            for (let key in data) {
-                if(data[key] !== '' && data[key] !== undefined){
-                    zoneArr.push({ zoneName: data[key], zoneId: key });
-                    setDriftlessTimeout(()=>this.getTimeFromZone(data[key]),(1200 * flag++));
-                }
+        dbRef.child('.info/connected').on('value',(connectedSnap) =>{
+            if (connectedSnap.val() === true) {
+                dbRef.on('value',(result) => {
+                    const data = result.val();
+                    const zoneArr = [];
+                    let flag = 0;
+                    for (let key in data) {
+                        if(data[key] !== '' && data[key] !== undefined){
+                            zoneArr.push({ zoneName: data[key], zoneId: key });
+                            setDriftlessTimeout(()=>this.getTimeFromZone(data[key]),(1200 * flag++));
+                        }
+                    }
+                    this.setState({
+                        zoneArray:zoneArr
+                    })
+                })
             }
-            this.setState({
-                zoneArray:zoneArr
-            })
-        })
+        });
     }
+        
+    
+
     deleteZone = (zoneId,zoneName) => {
         
         Swal.fire({

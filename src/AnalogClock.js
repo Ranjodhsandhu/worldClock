@@ -32,7 +32,7 @@ class AnalogClock extends Component {
     }
 
     setDate = () => {
-        if (Object.keys(this.props.timeProp).length){
+        if (Object.keys(this.props.timeProp).length && this.props.timeProp.status ==='OK'){
             const zTime = this.props.timeProp;
             let date = new Date((zTime.timestamp - zTime.gmtOffset) * 1000);
             date = new Date(date.toLocaleString('en-US', { timeZone: `${zTime.zoneName}` }));

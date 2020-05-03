@@ -20,12 +20,17 @@ class SearchTimeZone extends Component{
         if (event.target.localName === 'li' || event.target.localName === 'span') {
             let text = event.target.innerText;
             const updateSelection = (selection) => {
+                console.log(selection);
                 this.props.userSelectionProp(selection);
             }
-            if (event.target.localName === 'span' && event.target.className === 'highLight'){
+            if (event.target.className === 'highLight'){
                 text = event.target.parentNode.innerText;
             }
-            if (text !== 'Country Name' && text !== 'Or Zone Name' && text !== 'undefined'){
+            if (text !== 'Country Name' 
+                && text !== 'Or Zone Name' 
+                && text !== 'undefined'
+                && text !== ''
+                && text !== ' '){
                 updateSelection(text);
             } else {
                 Swal.fire({
@@ -46,8 +51,8 @@ class SearchTimeZone extends Component{
 
     displayTimeZoneList = (event) => {
         let dynamicHtml = `<li>Country Name</li><li>or Zone Name</li>`;
-        const matchWord = this.state.userInput;
-        const matchedArray = this.findMatches(matchWord);
+        const matchWord = (this.state.userInput).trim();
+        let matchedArray = this.findMatches(matchWord);
 
         if (matchWord !== '' && matchedArray.length){
             dynamicHtml = matchedArray.map(zone=>{

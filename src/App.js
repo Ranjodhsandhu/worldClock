@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Offline } from 'react-detect-offline';
 import InfoButton from './InfoButton';
 import SearchTimeZone from './SearchTimeZone';
 import AnalogClock from './AnalogClock';
@@ -52,25 +53,27 @@ class App extends Component {
     if (Object.keys(this.state.timeZone).length) {
       const dbRef = firebase.database().ref();
       let flag = false;
-      dbRef.on('value', (result) => {
-        const data = result.val();
-        
-        if(data  && Object.keys(data).length === 4){
-          flag = true;
-          showAlert('warning', 'Max Limit of Four Zones',2000);
-        }else {
-          for (let key in data) {
-            if(data[key] === this.state.timeZone.zoneName){
+      dbRef.child('.info/connected').on('value',(connectedSnap) =>{
+        if (connectedSnap.val() === true) {
+          dbRef.on('value', (result) => {
+            const data = result.val();
+            if (data && Object.keys(data).length === 4) {
               flag = true;
+              showAlert('warning', 'Max Limit Reached', 2000);
+            } else {
+              for (let key in data) {
+                if (data[key] === this.state.timeZone.zoneName) {
+                  flag = true;
+                }
+              }
             }
+          })
+          if(!flag) {
+            dbRef.push(this.state.timeZone.zoneName);
+            showAlert('success', 'Added To Favorite',2000);
           }
         }
-      })
-      
-      if(!flag) {
-        dbRef.push(this.state.timeZone.zoneName);
-        showAlert('success', 'Added To Favorite',2000);
-      }
+      });
     }
   }
 
@@ -93,6 +96,7 @@ class App extends Component {
             type="submit" 
             onClick={this.addToFavorite}>Add To Favorite</button>
           </form>
+          <Offline><p className='offline'>You are offline.</p></Offline>
           <SearchTimeZone 
             userSelectionProp={this.updateUserSelection}
           />
