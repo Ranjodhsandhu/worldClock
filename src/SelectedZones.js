@@ -63,12 +63,15 @@ class SelectedZones extends Component{
     deleteZone = (zoneId,zoneName) => {
         
         Swal.fire({
-            title: 'Are you sure?',
+            title: `<pre>Are you sure?</pre>`,
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
+            confirmButtonText: 'Yes, delete it!',
+            customClass:{
+                popup:'show-alert'
+            }
         }).then((result) => {
             if (result.value) {
                 const copyOfZoneArray = [...this.state.zoneArray];

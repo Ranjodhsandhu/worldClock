@@ -17,13 +17,20 @@ body{
   background:linear-gradient(to right, hsl(180,100%,50%),hsl(205,100%,50%));
   font-size:62.5%;
 }
-
+h1,h2,h3{
+  font-family: 'Lora', serif;
+}
+p,li,a{
+  font-family: 'Roboto', sans-serif;
+}
 .wrapper{
   width:90%;
   max-width:1200px;
   margin:0 auto;
 }
-
+.show-alert pre{
+  font-family: 'Roboto', sans-serif;
+}
 /***** Global Styles End*****/
 
 /***** Header styles Start *****/
