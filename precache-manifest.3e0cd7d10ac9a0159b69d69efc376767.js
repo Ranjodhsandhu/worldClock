@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "2ff504ea93309cf5f92bbe70b679105b",
+    "revision": "473d18befd6bb766046a4ee9cf4080df",
     "url": "/worldClock/index.html"
   },
   {
-    "revision": "54500d07117652abc98f",
-    "url": "/worldClock/static/css/main.31ab3dea.chunk.css"
+    "revision": "ee626075ea630a3987ae",
+    "url": "/worldClock/static/css/main.e434bb12.chunk.css"
   },
   {
-    "revision": "0fcb48abab1a97f4cfb4",
-    "url": "/worldClock/static/js/2.22a3a18b.chunk.js"
+    "revision": "24ddbcb3f01a50918791",
+    "url": "/worldClock/static/js/2.fa646fb0.chunk.js"
   },
   {
     "revision": "283ecf2726c948d338c9d2fb617adc35",
-    "url": "/worldClock/static/js/2.22a3a18b.chunk.js.LICENSE.txt"
+    "url": "/worldClock/static/js/2.fa646fb0.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "54500d07117652abc98f",
-    "url": "/worldClock/static/js/main.01c53ff2.chunk.js"
+    "revision": "ee626075ea630a3987ae",
+    "url": "/worldClock/static/js/main.c1735e2c.chunk.js"
   },
   {
     "revision": "85f121cb89bc3637b252",
