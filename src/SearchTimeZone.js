@@ -72,10 +72,12 @@ class SearchTimeZone extends Component{
         })
     }
     findMatches = (matchWord)=>{
-        return this.state.timeZoneList.filter(zone =>{
+        // first check if the word to find has all characters or a space
+        const isCharacter = /^[a-zA-Z ]+$/.test(matchWord);
+        return isCharacter ? this.state.timeZoneList.filter(zone =>{
             const regex = new RegExp(matchWord,'gi');
             return zone.countryName.match(regex) || zone.zoneName.match(regex);
-        });
+        }):[];
     }
     handleDeleteClick = ()=>{
         this.setState({
