@@ -1,12 +1,13 @@
 import React,{Component} from 'react';
 import AnalogClock from './AnalogClock';
-import axios from 'axios';
+import zonePromise from './zonePromise';
 import firebase from './firebase';
 import latLngObject from './latLngObject';
 import { setDriftlessTimeout } from 'driftless';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/fontawesome-free-solid';
-import Swal from 'sweetalert2';;
+import Swal from 'sweetalert2';
+import showAlert from  './showAlert';
 
 class SelectedZones extends Component{
 
@@ -22,18 +23,7 @@ class SelectedZones extends Component{
         this.getZonesFromDatabase();
     }
     getTimeFromZone = (zoneName) => {
-        axios({
-            url: 'https://api.timezonedb.com/v2.1/get-time-zone',
-            method: 'GET',
-            responseType: 'json',
-            params: {
-                key: '16OZ7ZU6JZBK',
-                format: 'json',
-                by: 'zone',
-                zone: zoneName,
-                fields: 'zoneName,gmtOffset,timestamp,countryName,countryCode',
-            }
-        }).then((result) => {
+        zonePromise(zoneName).then((result) => {
             let lat = 0, lng = 0;
             if (latLngObject.hasOwnProperty(result.data.countryCode)) {
                 lat = latLngObject[result.data.countryCode].Lat;
@@ -70,7 +60,6 @@ class SelectedZones extends Component{
             })
         })
     }
-
     deleteZone = (zoneId,zoneName) => {
         
         Swal.fire({
@@ -95,13 +84,7 @@ class SelectedZones extends Component{
                     coordinatesArray:cArray,
                     zoneArray:zArray,
                 },()=>{
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Deleting...',
-                            timer:3000,
-                            showConfirmButton:false
-                            }
-                        );
+                        showAlert('success','Deleting...',3000);
                         const itemRef = firebase.database().ref(zoneId);
                         itemRef.remove();
                 });
@@ -134,7 +117,7 @@ class SelectedZones extends Component{
                         </li>
                     )
                 })
-                : <div className="empty-list"><p>Select Zone or Country to add to Favorite List</p></div>
+                : <li><p className="empty-list">Select Zone or Country to add to Favorite List</p></li>
                 }
 
             </ul>

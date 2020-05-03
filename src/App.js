@@ -1,12 +1,12 @@
-import React, { Component } from 'react'; // react if from node_modules
-import axios from 'axios';
+import React, { Component } from 'react';
 import InfoButton from './InfoButton';
 import SearchTimeZone from './SearchTimeZone';
 import AnalogClock from './AnalogClock';
 import SelectedZones from './SelectedZones';
 import latLngObject from './latLngObject';
 import firebase from './firebase';
-import Swal from 'sweetalert2';
+import showAlert from  './showAlert';
+import zonePromise from './zonePromise';
 import './App.css';
 
 class App extends Component {
@@ -29,20 +29,8 @@ class App extends Component {
     this.getTimeFromZone(selectedZoneName);
   }
 
-
   getTimeFromZone = (zoneName) => {
-    axios({
-      url: 'https://api.timezonedb.com/v2.1/get-time-zone',
-      method: 'GET',
-      responseType: 'json',
-      params: {
-        key: '16OZ7ZU6JZBK',
-        format: 'json',
-        by: 'zone',
-        zone: zoneName,
-        fields: 'zoneName,gmtOffset,timestamp,countryName,countryCode',
-      }
-    }).then((result) => {
+    zonePromise(zoneName).then((result) => {
         let lat=0,lng=0;
         if(latLngObject.hasOwnProperty(result.data.countryCode))
         {
@@ -59,12 +47,7 @@ class App extends Component {
   addToFavorite = (event) => {
     event.preventDefault();
     if (!Object.keys(this.state.timeZone).length) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Please Select a Zone or Country',
-        showConfirmButton: false,
-        timer: 2000
-      });
+      showAlert('info', 'Please Select a Zone or Country',2000);
     }
     if (Object.keys(this.state.timeZone).length) {
       const dbRef = firebase.database().ref();
@@ -74,12 +57,7 @@ class App extends Component {
         
         if(data  && Object.keys(data).length === 4){
           flag = true;
-          Swal.fire({
-            icon: 'warning',
-            title: 'Max Limit of Four Zones',
-            showConfirmButton: false,
-            timer: 2000
-          })
+          showAlert('warning', 'Max Limit of Four Zones',2000);
         }else {
           for (let key in data) {
             if(data[key] === this.state.timeZone.zoneName){
@@ -91,12 +69,7 @@ class App extends Component {
       
       if(!flag) {
         dbRef.push(this.state.timeZone.zoneName);
-        Swal.fire({
-          icon: 'success',
-          title: 'Added To Favorite',
-          showConfirmButton: false,
-          timer: 2000
-        })
+        showAlert('success', 'Added To Favorite',2000);
       }
     }
   }
@@ -127,7 +100,7 @@ class App extends Component {
           <SelectedZones />
         </main>
         <footer>
-          <p>&copy; <a href="https://www.ranjodhsingh.ca">Ranjodh Singh</a>, 2020. Reference from Clock Tutorial by Wesbos.</p>
+          <p>&copy; <a href="https://www.ranjodhsingh.ca">Ranjodh Singh</a>, 2020. Thanks for Clock Tutorial by Wesbos.</p>
         </footer>
       </div>
     );

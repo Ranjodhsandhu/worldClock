@@ -71,9 +71,8 @@ class AnalogClock extends Component {
             h = this.state.hours + 1;
             m = 0;
         }
-        if( h >= 24 ){
-            h = 0;
-        }
+        if( h >= 24 )h = 0;
+        
         this.setState({
             seconds:s,
             mins:m,
@@ -102,10 +101,12 @@ class AnalogClock extends Component {
 
         const postFix = digHours >= 12 && digHours <=24 ? 'PM':'AM';
         digHours = digHours >= 13 ? (digHours-12): digHours;
+        digHours = digHours === 0 ? '0'+digHours: digHours;
         digMins = digMins >= 0 && digMins < 10 ? '0'+digMins : digMins;
-        const digDate = this.state.now.getDate();
-        const digMonth = this.state.now.toString().split(' ')[1];
-        const digDay = this.state.now.toString().split(' ')[0];
+        const d = this.state.now;
+        const digDate = d.getDate();
+        const digDay = d.toString().split(' ')[0];
+        const digMonth = d.toString().split(' ')[1];
 
         return (
             <section className="clock-section">
