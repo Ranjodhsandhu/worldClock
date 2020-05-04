@@ -351,13 +351,16 @@ input.search {
 }
 .clear-input{
   position:absolute;
-  right:1rem;
+  right:0.5rem;
   top:1.6rem;
   z-index:10;
   color:grey;
   font-size:1rem;
   cursor:pointer;
   transition:all 0.3s ease-in-out;
+  background:none;
+  border:none;
+  text-align:right;
 }
 .clear-input:hover,
 .clear-input:focus{
@@ -405,9 +408,10 @@ input.search {
   background:none;
   border:none;
   position:relative;
-  left:0%;
+  left:-5%;
   transition:all 0.3s ease-in-out;
   z-index:0;
+  text-align:left;
 }
 .times-icon:hover,
 .times-icon:focus{

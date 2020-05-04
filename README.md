@@ -1,3 +1,22 @@
+#World Clock
+
+This project is built with React using npx create-react-app. It has options to search for a country or a particular time zone, and then show time for that time zone in analog and digital format.
+
+ - Entirely a React application.
+ - This app lets you SEARCH for a time zone or country.
+ - Show the time of a timezone.
+ - This app is accessible through keyboard.
+ - Responsive design for all the devices.
+ - Uses [mapquest](https://developer.mapquest.com/) api to show static maps as clock background.
+ - This app stores data into [firebase](https://firebase.google.com/).
+ - That lets you save up to FOUR timezones for future reference.
+ - Uses [driftless](https://www.npmjs.com/package/driftless) library to cover up the drift in clock.
+ - Followed best practices to accomplish this project.
+ - Find the live website [here](https://ranjodhsandhu.github.io/worldClock/)
+
+
+### For further reference: Follow below steps to create a react app of your own
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

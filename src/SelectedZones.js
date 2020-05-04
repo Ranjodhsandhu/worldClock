@@ -41,12 +41,12 @@ class SelectedZones extends Component{
             let cArray = copyOfCoordinatesArray.filter(z => z.zoneName !== result.data.zoneName);
             // then combine the new time zone
             tzArray = [...tzArray, result.data];
-            cArray = [...cArray, { zoneName: `${result.data.zoneName}`, latlng: `${lat},${lng}` }];
+            cArray = [...cArray, { zoneName: `${result.data.zoneName}`, latlng: `${lat},${lng}` }]
             // update the state by sorting arrays
             this.setState({
                 timeZoneArray: tzArray.sort(this.sortByZoneName),
                 coordinatesArray: cArray.sort(this.sortByZoneName)
-            })
+            });
         }).catch((error) => {
             // if network error call api again to get data
             if(error) {
@@ -63,19 +63,19 @@ class SelectedZones extends Component{
         dbRef.on('value',(result) => {
             const data = result.val();
             const zoneArr = [];
+            let flag = 0;
             for (let key in data) {
                 if(data[key] !== '' && data[key] !== undefined){
                     zoneArr.push({ zoneName: data[key], zoneId: key });
+                    
+                        setDriftlessTimeout(() => this.getTimeFromZone(data[key]), (1200 * flag++));
+                    
                 }
             }
             // update the zone array with sorted values and call api to get time for each zone
-            let flag = 0;
             this.setState({
                 zoneArray: zoneArr.sort(this.sortByZoneName)
-            },()=> this.state.zoneArray.map((zone)=>{
-                    setDriftlessTimeout(() => this.getTimeFromZone(zone.zoneName), (1200 * flag++));
-                })
-            )
+            });
         })
     }
     // method to sort an object by its zone name
@@ -113,7 +113,7 @@ class SelectedZones extends Component{
                 const tzArray = copyOfTimeZoneArray.filter((z)=>{return z.zoneName !== zoneName});
                 const cArray = copyOfCoordinatesArray.filter(c=>{return c.zoneName !== zoneName});
                 const zArray = copyOfZoneArray.filter((z)=>{return z.zoneId !== zoneId});
-
+                
                 this.setState({
                     timeZoneArray: tzArray.sort(this.sortByZoneName),
                     coordinatesArray: cArray.sort(this.sortByZoneName),

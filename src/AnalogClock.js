@@ -61,7 +61,7 @@ class AnalogClock extends Component {
         const sDegrees = ((this.state.seconds / 60) * 360);
         const mDegrees = ((this.state.mins / 60) * 360) + ((this.state.seconds / 60) * 6);
         const hDegrees = ((this.state.hours / 12) * 360) + ((this.state.mins / 60) * 30);
-
+        
         // update hands for each clock by its clock number from prop
         const clockNumber = this.props.clockNumberProp;
         document.getElementsByClassName('second-hand')[clockNumber].style.transform = `rotate(${sDegrees}deg)`;
@@ -104,7 +104,7 @@ class AnalogClock extends Component {
         const textColor = isLight ? 'black':'white';
         // get the zone name to show on page
         const propZoneName = (this.state.zone).split('/')[1];
-
+        
         let zoneName = '';
         if (propZoneName === undefined) {
             zoneName = 'Local Time';
@@ -113,8 +113,10 @@ class AnalogClock extends Component {
         } else {
             zoneName = propZoneName;
         }
+        
 
-        // convert the 24 hour format to 12 hour format
+        // convert the 24 hour format to 12 hour digital format
+        const postFix = digHours >= 12 && digHours <=24 ? 'PM':'AM';
         digHours = digHours >= 13 ? (digHours-12): digHours;
         digHours = digHours === 0 ? '0'+digHours: digHours;
         digMins = digMins >= 0 && digMins < 10 ? '0'+digMins : digMins;
@@ -122,7 +124,6 @@ class AnalogClock extends Component {
         const digDay = d.toString().split(' ')[0];
         const digMonth = d.toString().split(' ')[1];
         const digDate = d.getDate();
-        const postFix = digHours >= 12 && digHours <=24 ? 'PM':'AM';
 
         return (
             <section className="clock-section">
