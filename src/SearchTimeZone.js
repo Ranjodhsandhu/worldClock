@@ -8,6 +8,8 @@ import ReactHtmlParser from 'react-html-parser';
 class SearchTimeZone extends Component{
     constructor(){
         super();
+        this.zoneInput = React.createRef();
+        this.focusZoneInput = this.focusZoneInput.bind(this);
         this.state = {
             timeZoneList: zoneListObject,
             userInput:'',
@@ -15,8 +17,15 @@ class SearchTimeZone extends Component{
             <li>or Zone Name</li>`,
         }
     }
+    componentDidMount(){
+        this.focusZoneInput();
+    }
+    focusZoneInput() {
+        this.zoneInput.current.focus();
+    }
 
     handleFormClick = (event) => {
+        
         if (event.target.localName === 'li' || event.target.localName === 'span') {
             let text = event.target.innerText;
             const updateSelection = (selection) => {
@@ -37,7 +46,8 @@ class SearchTimeZone extends Component{
                     title: 'Type in input field',
                     showConfirmButton: false,
                     timer: 1000
-                })
+                });
+                this.focusZoneInput();
             }
             window.scrollTo(0, 0);
             this.setState({
@@ -79,6 +89,7 @@ class SearchTimeZone extends Component{
         }):[];
     }
     handleDeleteClick = ()=>{
+        this.focusZoneInput();
         this.setState({
             userInput: '',
             html: `<li>Country Name</li>
@@ -105,15 +116,18 @@ class SearchTimeZone extends Component{
                     id="search-input"
                     value={this.state.userInput}
                     placeholder="Country or Zone"
+                    ref={this.zoneInput}
                     onKeyUp={this.displayTimeZoneList}
                     onChange={this.displayTimeZoneList}
                 />
-                <FontAwesomeIcon
-                    icon={faTrashAlt}
+                <button
                     onClick={this.handleDeleteClick}
                     className="clear-input"
-                    aria-label="Clear Input"
-                />
+                    aria-label="Clear Input">
+                    <FontAwesomeIcon
+                        icon={faTrashAlt}
+                    />
+                </button>
                 <div className="list-container">
                     <ul className="suggestions" >
                         {ReactHtmlParser(this.state.html)}

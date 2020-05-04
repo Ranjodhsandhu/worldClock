@@ -119,14 +119,18 @@ class SelectedZones extends Component{
                 ? this.state.timeZoneArray.map((timeZone,idx)=>{
                     return(  
                         <li key={this.state.zoneArray[idx].zoneId}>
-                            <FontAwesomeIcon 
-                            icon={faTimes} 
-                            onClick={() => 
-                                this.state.online
-                                    ? this.deleteZone(this.state.zoneArray[idx].zoneId, this.state.zoneArray[idx].zoneName) 
-                                : showAlert('warning','No Connection')
+                            <button 
+                                onClick={() =>
+                                    this.state.online
+                                    ? this.deleteZone(this.state.zoneArray[idx].zoneId, this.state.zoneArray[idx].zoneName)
+                                    : showAlert('warning', 'No Connection')
                                 }
-                            className="times-icon"/>
+                                className="times-icon"
+                                aria-label="delete clock">
+                                <FontAwesomeIcon 
+                                    icon={faTimes} 
+                                />
+                            </button>
                             <div>
                                 <AnalogClock
                                     timeProp={timeZone}

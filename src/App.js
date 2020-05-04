@@ -19,7 +19,6 @@ class App extends Component {
       selectedZoneList:[],
     }
   }
-
   updateUserSelection = (selection)=>{
     let selectedZoneName = '';
     if(selection !== 'undefined')
@@ -61,7 +60,7 @@ class App extends Component {
         const data = result.val();
         if (data && Object.keys(data).length === 4) {
           flag = true;
-          showAlert('warning', 'Max Limit Reached', 2000);
+          showAlert('warning', 'Max!!!', 2000);
         } else {
           for (let key in data) {
             if (data[key] === this.state.timeZone.zoneName) {
@@ -94,7 +93,8 @@ class App extends Component {
             <button 
             className="favorite-button" 
             type="submit" 
-            onClick={this.addToFavorite}>Add To Favorite</button>
+            onClick={this.addToFavorite}
+            aria-label="add to favorite">Add To Favorite</button>
           </form>
           <Offline><p className='offline'>You are offline.</p></Offline>
           <SearchTimeZone 
