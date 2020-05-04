@@ -43,7 +43,11 @@ class App extends Component {
           coordinates: `${lat},${lng}`
         })
       }
-    )
+    ).catch(error=>{
+      if(error){
+        this.getTimeFromZone(zoneName);
+      }
+    })
   }
   addToFavorite = (event) => {
     event.preventDefault();
@@ -53,27 +57,23 @@ class App extends Component {
     if (Object.keys(this.state.timeZone).length) {
       const dbRef = firebase.database().ref();
       let flag = false;
-      dbRef.child('.info/connected').on('value',(connectedSnap) =>{
-        if (connectedSnap.val() === true) {
-          dbRef.on('value', (result) => {
-            const data = result.val();
-            if (data && Object.keys(data).length === 4) {
+      dbRef.on('value', (result) => {
+        const data = result.val();
+        if (data && Object.keys(data).length === 4) {
+          flag = true;
+          showAlert('warning', 'Max Limit Reached', 2000);
+        } else {
+          for (let key in data) {
+            if (data[key] === this.state.timeZone.zoneName) {
               flag = true;
-              showAlert('warning', 'Max Limit Reached', 2000);
-            } else {
-              for (let key in data) {
-                if (data[key] === this.state.timeZone.zoneName) {
-                  flag = true;
-                }
-              }
             }
-          })
-          if(!flag) {
-            dbRef.push(this.state.timeZone.zoneName);
-            showAlert('success', 'Added To Favorite',2000);
           }
         }
-      });
+      })
+      if(!flag && this.state.timeZone.zoneName){
+        dbRef.push(this.state.timeZone.zoneName);
+        showAlert('success', 'Added To Favorite',2000);
+      }
     }
   }
 

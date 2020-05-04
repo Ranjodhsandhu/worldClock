@@ -33,12 +33,13 @@ class SelectedZones extends Component{
             const copyOfTimeZoneArray = [...this.state.timeZoneArray];
             const copyOfCoordinatesArray = [...this.state.coordinatesArray];
 
-            const tzArray = copyOfTimeZoneArray.filter(z => z.zoneName !== result.data.zoneName );
-            const cArray = copyOfCoordinatesArray.filter(z => z.zoneName !== result.data.zoneName);
-
+            let tzArray = copyOfTimeZoneArray.filter(z => z.zoneName !== result.data.zoneName );
+            let cArray = copyOfCoordinatesArray.filter(z => z.zoneName !== result.data.zoneName);
+            tzArray = [...tzArray, result.data];
+            cArray = [...cArray, { zoneName: `${result.data.zoneName}`, latlng: `${lat},${lng}` }];
             this.setState({
-                timeZoneArray: [...tzArray, result.data],
-                coordinatesArray: [...cArray,{zoneName:`${result.data.zoneName}`,latlng:`${lat},${lng}`}]
+                timeZoneArray: tzArray.sort(this.sortByZoneName),
+                coordinatesArray: cArray.sort(this.sortByZoneName)
             })
         }).catch((error) => {
             if(error) {
@@ -49,30 +50,33 @@ class SelectedZones extends Component{
     getZonesFromDatabase = ()=>{
         // set up the listener to firebase database
         const dbRef = firebase.database().ref();
-        dbRef.child('.info/connected').on('value',(connectedSnap) =>{
-            if (connectedSnap.val() === true) {
-                dbRef.on('value',(result) => {
-                    const data = result.val();
-                    const zoneArr = [];
-                    let flag = 0;
-                    for (let key in data) {
-                        if(data[key] !== '' && data[key] !== undefined){
-                            zoneArr.push({ zoneName: data[key], zoneId: key });
-                            setDriftlessTimeout(()=>this.getTimeFromZone(data[key]),(1200 * flag++));
-                        }
-                    }
-                    this.setState({
-                        zoneArray:zoneArr
-                    })
-                })
+        dbRef.on('value',(result) => {
+            const data = result.val();
+            const zoneArr = [];
+            for (let key in data) {
+                if(data[key] !== '' && data[key] !== undefined){
+                    zoneArr.push({ zoneName: data[key], zoneId: key });
+                }
             }
-        });
+            let flag = 0;
+            this.setState({
+                zoneArray: zoneArr.sort(this.sortByZoneName)
+            },()=> this.state.zoneArray.map((zone)=>{
+                    setDriftlessTimeout(() => this.getTimeFromZone(zone.zoneName), (1200 * flag++));
+                })
+            )
+        })
     }
-        
-    
-
+    sortByZoneName = (a, b) => {
+        if (a.zoneName < b.zoneName) {
+        return -1;
+    }
+    if (a.zoneName > b.zoneName) {
+        return 1;
+    }
+    return 0;
+}
     deleteZone = (zoneId,zoneName) => {
-        
         Swal.fire({
             title: `<pre>Are you sure?</pre>`,
             icon: 'warning',
@@ -94,9 +98,9 @@ class SelectedZones extends Component{
                 const zArray = copyOfZoneArray.filter((z)=>{return z.zoneId !== zoneId});
 
                 this.setState({
-                    timeZoneArray: tzArray,
-                    coordinatesArray:cArray,
-                    zoneArray:zArray,
+                    timeZoneArray: tzArray.sort(this.sortByZoneName),
+                    coordinatesArray: cArray.sort(this.sortByZoneName),
+                    zoneArray: zArray.sort(this.sortByZoneName),
                 },()=>{
                     showAlert('success','Deleting...',3000);
                     const itemRef = firebase.database().ref(zoneId);
@@ -111,18 +115,18 @@ class SelectedZones extends Component{
         return(
             <ul className="time-zone-list">
                 {
-                this.state.timeZoneArray.length > 0
+                (this.state.timeZoneArray.length > 0)
                 ? this.state.timeZoneArray.map((timeZone,idx)=>{
                     return(  
                         <li key={this.state.zoneArray[idx].zoneId}>
-                            {<FontAwesomeIcon 
+                            <FontAwesomeIcon 
                             icon={faTimes} 
                             onClick={() => 
-                                this.state.online ?
-                                this.deleteZone(this.state.zoneArray[idx].zoneId,timeZone.zoneName) 
+                                this.state.online
+                                    ? this.deleteZone(this.state.zoneArray[idx].zoneId, this.state.zoneArray[idx].zoneName) 
                                 : showAlert('warning','No Connection')
                                 }
-                            className="times-icon"/>}
+                            className="times-icon"/>
                             <div>
                                 <AnalogClock
                                     timeProp={timeZone}
