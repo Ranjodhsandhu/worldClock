@@ -19,6 +19,9 @@ class App extends Component {
       selectedZoneList:[],
     }
   }
+
+  // This method is to update the user selection from the search list
+  // @params: selection - user selected zone
   updateUserSelection = (selection)=>{
     let selectedZoneName = '';
     if(selection !== 'undefined')
@@ -28,40 +31,55 @@ class App extends Component {
     })
     this.getTimeFromZone(selectedZoneName);
   }
-
+  
+  // Get the time zone from the timezonedb.com api
+  // @params: zoneName
   getTimeFromZone = (zoneName) => {
     zonePromise(zoneName).then((result) => {
         let lat=0,lng=0;
+        // get the lat lng from the object with given country code
         if(latLngObject.hasOwnProperty(result.data.countryCode))
         {
           lat = latLngObject[result.data.countryCode].Lat;
           lng = latLngObject[result.data.countryCode].Lng;
         }
+        // update the timeZone and coordinates
         this.setState({
           timeZone: result.data,
           coordinates: `${lat},${lng}`
         })
       }
     ).catch(error=>{
+      // if Network error try again to get the time for zone
       if(error){
         this.getTimeFromZone(zoneName);
       }
     })
   }
+
+  // add the selected time zone to the favorite list
+  // @params: event - to prevent page refresh
   addToFavorite = (event) => {
     event.preventDefault();
+    // If the timeZone is not selected, display message
     if (!Object.keys(this.state.timeZone).length) {
       showAlert('info', 'Please Select a Zone or Country',2000);
     }
+    // If the timeZone is selected
     if (Object.keys(this.state.timeZone).length) {
+      
+      // get Reference to Database
       const dbRef = firebase.database().ref();
       let flag = false;
+      
       dbRef.on('value', (result) => {
         const data = result.val();
+        // If there are already MAX FOUR items in the database
         if (data && Object.keys(data).length === 4) {
           flag = true;
           showAlert('warning', 'Max!!!', 2000);
         } else {
+          // otherwise check for duplication
           for (let key in data) {
             if (data[key] === this.state.timeZone.zoneName) {
               flag = true;
@@ -69,6 +87,7 @@ class App extends Component {
           }
         }
       })
+      // If none of the above condition were true, add to database
       if(!flag && this.state.timeZone.zoneName){
         dbRef.push(this.state.timeZone.zoneName);
         showAlert('success', 'Added To Favorite',2000);
@@ -76,6 +95,7 @@ class App extends Component {
     }
   }
 
+  // Show content on the page
   render(){
     return (
       <div className="App wrapper">

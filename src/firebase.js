@@ -1,6 +1,6 @@
 import firebase from 'firebase/app';
 import 'firebase/database';
-
+// firebase database credentials 
 const firebaseConfig = {
     apiKey: "AIzaSyD7aX3iO2nZ43eLPVbcqXqB_676Wn_oKOw",
     authDomain: "world-clock-11971.firebaseapp.com",

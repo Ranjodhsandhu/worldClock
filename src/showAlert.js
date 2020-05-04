@@ -1,5 +1,5 @@
 import Swal from 'sweetalert2';;
-
+// function component to show sweet alert message on call
 function showAlert(ico,titleText,time){
     Swal.fire({
         icon: ico,

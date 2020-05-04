@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import { setDriftlessInterval, clearDriftless} from 'driftless';
 
-
+// This clock accepts the time from time zone and runs the clock
 class AnalogClock extends Component {
 
     constructor(){
@@ -15,6 +15,7 @@ class AnalogClock extends Component {
             hours: (new Date()).getHours(),
         }
     }
+    // here first check if there is any difference in state and props received
     componentDidUpdate(prevProps, prevState) {
         if (this.props.timeProp.zoneName !== prevState.zone) {
             this.setDate();
@@ -22,19 +23,26 @@ class AnalogClock extends Component {
     }
     componentDidMount() {
         this.setDate();
+        // run the clock to update every second
+        // driftlessInterval make the time lost by drift caused by interval call
         this.timeId = setDriftlessInterval(()=>{
             this.updateTime();
         }, 
         1000);
     }
+    // clear the clock Interval when clock is unmounted
     componentWillUnmount(){
         clearDriftless(this.timeId);
     }
 
+    // This method gets called after props updation 
+    // it will update the state to get new Date() from timeProp
     setDate = () => {
         if (Object.keys(this.props.timeProp).length && this.props.timeProp.status ==='OK'){
             const zTime = this.props.timeProp;
+            // calculate date in string format from timestamp by converting to milliseconds
             let date = new Date((zTime.timestamp - zTime.gmtOffset) * 1000);
+            //  convert the date to its zone locale
             date = new Date(date.toLocaleString('en-US', { timeZone: `${zTime.zoneName}` }));
             this.setState({
                 now: date,
@@ -47,11 +55,14 @@ class AnalogClock extends Component {
         }
     }
 
+    // update time every second and also show it on the clock 
     updateTime = () => {
+        // calculate how many degrees each hand should move
         const sDegrees = ((this.state.seconds / 60) * 360);
         const mDegrees = ((this.state.mins / 60) * 360) + ((this.state.seconds / 60) * 6);
         const hDegrees = ((this.state.hours / 12) * 360) + ((this.state.mins / 60) * 30);
 
+        // update hands for each clock by its clock number from prop
         const clockNumber = this.props.clockNumberProp;
         document.getElementsByClassName('second-hand')[clockNumber].style.transform = `rotate(${sDegrees}deg)`;
         document.getElementsByClassName('min-hand')[clockNumber].style.transform = `rotate(${mDegrees}deg)`;
@@ -81,17 +92,20 @@ class AnalogClock extends Component {
     }
 
     
-
+    // renders clock and time  in analog and digital format
     render(){
         let digHours = this.state.hours;
         let digMins = this.state.mins;
-        
+        // check if the it is day or night time
         const isLight = digHours >= 6 && digHours < 18;
+        // get the map url as per day or night with its type
         const mapURL = isLight ? this.state.mapUrl + '&type=light' : this.state.mapUrl + '&type=dark';
+        // get the text color to show as per day or night
         const textColor = isLight ? 'black':'white';
-        let zoneName = '';
+        // get the zone name to show on page
         const propZoneName = (this.state.zone).split('/')[1];
 
+        let zoneName = '';
         if (propZoneName === undefined) {
             zoneName = 'Local Time';
         } else if (propZoneName.length >= 12) {
@@ -100,14 +114,15 @@ class AnalogClock extends Component {
             zoneName = propZoneName;
         }
 
-        const postFix = digHours >= 12 && digHours <=24 ? 'PM':'AM';
+        // convert the 24 hour format to 12 hour format
         digHours = digHours >= 13 ? (digHours-12): digHours;
         digHours = digHours === 0 ? '0'+digHours: digHours;
         digMins = digMins >= 0 && digMins < 10 ? '0'+digMins : digMins;
         const d = this.state.now;
-        const digDate = d.getDate();
         const digDay = d.toString().split(' ')[0];
         const digMonth = d.toString().split(' ')[1];
+        const digDate = d.getDate();
+        const postFix = digHours >= 12 && digHours <=24 ? 'PM':'AM';
 
         return (
             <section className="clock-section">

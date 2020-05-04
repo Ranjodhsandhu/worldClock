@@ -1,5 +1,6 @@
 import React,{Component} from 'react';
 
+// component to show the information about the use of clock
 class InfoButton extends Component{
     render(){
         return(
