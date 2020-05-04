@@ -108,8 +108,8 @@ class AnalogClock extends Component {
         let zoneName = '';
         if (propZoneName === undefined) {
             zoneName = 'Local Time';
-        } else if (propZoneName.length >= 12) {
-            zoneName = propZoneName.match(/\b\w/g).join('');
+        } else if (propZoneName.length >= 10 && (/[_]/).test(propZoneName)) {
+            zoneName = propZoneName.split('_')[0].charAt(0) + propZoneName.split('_')[1].charAt(0);
         } else {
             zoneName = propZoneName;
         }

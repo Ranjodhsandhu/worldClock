@@ -1,8 +1,7 @@
-#World Clock
+# World Clock - A React App
 
 This project is built with React using npx create-react-app. It has options to search for a country or a particular time zone, and then show time for that time zone in analog and digital format.
 
- - Entirely a React application.
  - This app lets you SEARCH for a time zone or country.
  - Show the time of a timezone.
  - This app is accessible through keyboard.

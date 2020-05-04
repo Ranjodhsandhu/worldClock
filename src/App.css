@@ -408,7 +408,7 @@ input.search {
   background:none;
   border:none;
   position:relative;
-  left:-5%;
+  left:-1%;
   transition:all 0.3s ease-in-out;
   z-index:0;
   text-align:left;
