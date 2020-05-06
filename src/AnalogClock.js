@@ -64,12 +64,6 @@ class AnalogClock extends Component {
         const sDegrees = ((this.state.seconds / 60) * 360);
         const mDegrees = ((this.state.mins / 60) * 360) + ((this.state.seconds / 60) * 6);
         const hDegrees = ((this.state.hours / 12) * 360) + ((this.state.mins / 60) * 30);
-        
-        // update hands for each clock by its clock number from prop
-        // const clockNumber = this.props.clockNumberProp;
-        // document.getElementsByClassName('second-hand')[clockNumber].style.transform = `rotate(${sDegrees}deg)`;
-        // document.getElementsByClassName('min-hand')[clockNumber].style.transform = `rotate(${mDegrees}deg)`;
-        // document.getElementsByClassName('hour-hand')[clockNumber].style.transform = `rotate(${hDegrees}deg)`;
 
         let s=this.state.seconds,
             m=this.state.mins,
@@ -142,9 +136,12 @@ class AnalogClock extends Component {
                     style={{backgroundImage:`url(${mapURL})`}}
                 >
                     <div className='clock-face' style={{color:`${textColor}`}}>
-                        <div className='hand hour-hand' style={{transform:this.state.rotateHours}}></div>
-                        <div className='hand min-hand' style={{ transform: this.state.rotateMins }}></div>
-                        <div className='hand second-hand' style={{ transform: this.state.rotateSeconds }}></div>
+                        <div className='hand hour-hand' 
+                            style={{transform:this.state.rotateHours}}></div>
+                        <div className='hand min-hand' 
+                            style={{ transform: this.state.rotateMins }}></div>
+                        <div className='hand second-hand' 
+                            style={{ transform: this.state.rotateSeconds }}></div>
                         <div className="number number1"><p>1</p></div>
                         <div className="number number2"><p>2</p></div>
                         <div className="number number3"><p>3</p></div>
