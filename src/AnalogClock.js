@@ -13,6 +13,9 @@ class AnalogClock extends Component {
             seconds:(new Date()).getSeconds(),
             mins: (new Date()).getMinutes(),
             hours: (new Date()).getHours(),
+            rotateHours:`rotate(0deg)`,
+            rotateMins:`rotate(0deg)`,
+            rotateSeconds:`rotate(0deg)`,
         }
     }
     // here first check if there is any difference in state and props received
@@ -63,10 +66,10 @@ class AnalogClock extends Component {
         const hDegrees = ((this.state.hours / 12) * 360) + ((this.state.mins / 60) * 30);
         
         // update hands for each clock by its clock number from prop
-        const clockNumber = this.props.clockNumberProp;
-        document.getElementsByClassName('second-hand')[clockNumber].style.transform = `rotate(${sDegrees}deg)`;
-        document.getElementsByClassName('min-hand')[clockNumber].style.transform = `rotate(${mDegrees}deg)`;
-        document.getElementsByClassName('hour-hand')[clockNumber].style.transform = `rotate(${hDegrees}deg)`;
+        // const clockNumber = this.props.clockNumberProp;
+        // document.getElementsByClassName('second-hand')[clockNumber].style.transform = `rotate(${sDegrees}deg)`;
+        // document.getElementsByClassName('min-hand')[clockNumber].style.transform = `rotate(${mDegrees}deg)`;
+        // document.getElementsByClassName('hour-hand')[clockNumber].style.transform = `rotate(${hDegrees}deg)`;
 
         let s=this.state.seconds,
             m=this.state.mins,
@@ -88,6 +91,9 @@ class AnalogClock extends Component {
             seconds:s,
             mins:m,
             hours:h,
+            rotateHours: `rotate(${hDegrees}deg)`,
+            rotateMins: `rotate(${mDegrees}deg)`,
+            rotateSeconds: `rotate(${sDegrees}deg)`,
         })
     }
 
@@ -109,7 +115,11 @@ class AnalogClock extends Component {
         if (propZoneName === undefined) {
             zoneName = 'Local Time';
         } else if (propZoneName.length >= 10 && (/[_]/).test(propZoneName)) {
-            zoneName = propZoneName.split('_')[0].charAt(0) + propZoneName.split('_')[1].charAt(0);
+            zoneName = propZoneName.split('_')[0].charAt(0).toUpperCase() 
+                    + propZoneName.split('_')[1].charAt(0).toUpperCase();
+            if(propZoneName.split('_')[2]){
+                zoneName = zoneName + propZoneName.split('_')[2].charAt(0).toUpperCase();
+            }
         } else {
             zoneName = propZoneName;
         }
@@ -132,9 +142,9 @@ class AnalogClock extends Component {
                     style={{backgroundImage:`url(${mapURL})`}}
                 >
                     <div className='clock-face' style={{color:`${textColor}`}}>
-                        <div className='hand hour-hand'></div>
-                        <div className='hand min-hand'></div>
-                        <div className='hand second-hand'></div>
+                        <div className='hand hour-hand' style={{transform:this.state.rotateHours}}></div>
+                        <div className='hand min-hand' style={{ transform: this.state.rotateMins }}></div>
+                        <div className='hand second-hand' style={{ transform: this.state.rotateSeconds }}></div>
                         <div className="number number1"><p>1</p></div>
                         <div className="number number2"><p>2</p></div>
                         <div className="number number3"><p>3</p></div>

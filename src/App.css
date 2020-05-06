@@ -340,7 +340,6 @@ input.search {
   justify-content: flex-start;
   text-transform: capitalize;
   z-index:20;
-
 }
 .suggestions li:nth-child(even) {
   background: linear-gradient(to bottom,  #ffffff 0%,#EEEEEE 100%);
