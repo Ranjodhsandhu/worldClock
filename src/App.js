@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { Offline } from 'react-detect-offline';
-import InfoButton from './InfoButton';
-import SearchTimeZone from './SearchTimeZone';
-import AnalogClock from './AnalogClock';
-import SelectedZones from './SelectedZones';
-import latLngObject from './latLngObject';
-import firebase from './firebase';
-import showAlert from  './showAlert';
-import zonePromise from './zonePromise';
+import InfoButton from './Components/InfoButton';
+import SearchTimeZone from './Components/SearchTimeZone';
+import AnalogClock from './Components/AnalogClock';
+import SelectedZones from './Components/SelectedZones';
+import latLngObject from './Util/latLngObject';
+import firebase from './Util/firebase';
+import showAlert from  './Util/showAlert';
+import zonePromise from './Util/zonePromise';
 import './App.css';
 
 class App extends Component {

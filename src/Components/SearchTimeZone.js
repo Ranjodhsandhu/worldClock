@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import zoneListObject from './zoneListObject';
+import zoneListObject from '../Util/zoneListObject';
 import Swal from 'sweetalert2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt} from '@fortawesome/fontawesome-free-solid';
