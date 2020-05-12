@@ -8,7 +8,7 @@ class AnalogClock extends Component {
         super();
         this.state = {
             now: new Date(),
-            mapUrl:'https://open.mapquestapi.com/staticmap/v5/map?key=ozwRV4KrZgLGMjKBYbnTIZBWQAN4JZBn&center=60,-95&size=200,200&zoom=1&format=png',
+            mapUrl:'https://open.mapquestapi.com/staticmap/v5/map?key=TpZYQMsUgBgXUKt2b3xmQCxKpHB7JWoS&center=60,-95&size=200,200&zoom=1&format=png',
             zone:'',
             seconds:(new Date()).getSeconds(),
             mins: (new Date()).getMinutes(),
@@ -49,7 +49,7 @@ class AnalogClock extends Component {
             date = new Date(date.toLocaleString('en-US', { timeZone: `${zTime.zoneName}` }));
             this.setState({
                 now: date,
-                mapUrl:`https://open.mapquestapi.com/staticmap/v5/map?key=ozwRV4KrZgLGMjKBYbnTIZBWQAN4JZBn&center=${this.props.coordinatesProp}&size=200,200&zoom=1&format=png`,
+                mapUrl:`https://open.mapquestapi.com/staticmap/v5/map?key=TpZYQMsUgBgXUKt2b3xmQCxKpHB7JWoS&center=${this.props.coordinatesProp}&size=200,200&zoom=1&format=png`,
                 zone: zTime.zoneName,
                 seconds: date.getSeconds(),
                 mins: date.getMinutes(),
