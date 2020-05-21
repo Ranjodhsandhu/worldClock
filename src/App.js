@@ -102,6 +102,7 @@ class App extends Component {
         <header>
           <InfoButton />
           <h1>World Clock</h1>
+          <p className="description">Get time from anywhere in the Globe</p>
         </header>
         <main>
           <AnalogClock 
