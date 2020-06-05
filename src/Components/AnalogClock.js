@@ -39,17 +39,21 @@ class AnalogClock extends Component {
 
         // updating the clock time using the web worker utility...to be continued...
 
-        // this.updateClock(this.state.seconds);
+        this.updateClock(this.state.seconds);
     }
     // clear the clock Interval when clock is unmounted
     componentWillUnmount(){
         clearDriftless(this.timeId);
+        this.clock.terminate();
     }
     
     updateClock = (time)=>{
         this.clock.postMessage(time);
         this.clock.addEventListener('message', event => {
-            console.log(event.data);
+            // console.log(event.data);
+            this.setState({
+                seconds:event.data
+            });
         });
     }
 
@@ -80,26 +84,26 @@ class AnalogClock extends Component {
         const mDegrees = ((this.state.mins / 60) * 360) + ((this.state.seconds / 60) * 6);
         const hDegrees = ((this.state.hours / 12) * 360) + ((this.state.mins / 60) * 30);
 
-        let s=this.state.seconds,
-            m=this.state.mins,
-            h=this.state.hours;
+        // let s=this.state.seconds,
+        //     m=this.state.mins,
+        //     h=this.state.hours;
 
-        s = s + 1;
-        if(s >= 60){
-            m = this.state.mins + 1; 
-            s = 0;
-        }
+        // s = s + 1;
+        // if(s >= 60){
+        //     m = this.state.mins + 1; 
+        //     s = 0;
+        // }
         
-        if(m >= 60){
-            h = this.state.hours + 1;
-            m = 0;
-        }
-        if( h >= 24 )h = 0;
+        // if(m >= 60){
+        //     h = this.state.hours + 1;
+        //     m = 0;
+        // }
+        // if( h >= 24 )h = 0;
         
         this.setState({
-            seconds:s,
-            mins:m,
-            hours:h,
+            // seconds:s,
+            // mins:m,
+            // hours:h,
             rotateHours: `rotate(${hDegrees}deg)`,
             rotateMins: `rotate(${mDegrees}deg)`,
             rotateSeconds: `rotate(${sDegrees}deg)`,
