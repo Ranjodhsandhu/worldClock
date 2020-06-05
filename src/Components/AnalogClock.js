@@ -36,10 +36,7 @@ class AnalogClock extends Component {
             this.updateTime();
         }, 
         1000);
-
-        // updating the clock time using the web worker utility...to be continued...
-
-        this.updateClock(this.state.seconds);
+        this.updateClock(this.state.seconds,this.state.mins,this.state.hours);
     }
     // clear the clock Interval when clock is unmounted
     componentWillUnmount(){
@@ -47,12 +44,16 @@ class AnalogClock extends Component {
         this.clock.terminate();
     }
     
-    updateClock = (time)=>{
-        this.clock.postMessage(time);
+    updateClock = (seconds,mins,hours)=>{
+        this.clock.postMessage(seconds+"_"+mins+"_"+hours);
         this.clock.addEventListener('message', event => {
             // console.log(event.data);
             this.setState({
-                seconds:event.data
+                seconds:event.data.split("_")[0],
+
+                // To check for how to update the mins and hours from worker .... to continue
+                // mins: event.data.split("_")[1],
+                // hours: event.data.split("_")[2],
             });
         });
     }
