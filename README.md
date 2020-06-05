@@ -11,6 +11,7 @@ This project is built with React using npx create-react-app. It has options to s
  - That lets you save up to FOUR timezones for future reference.
  - Uses [driftless](https://www.npmjs.com/package/driftless) library to cover up the drift in clock.
  - Followed best practices to accomplish this project.
+ - Use of WEB-WORKER to handle clocks run in the background until closed.
  - Find the live website [here](https://ranjodhsandhu.github.io/worldClock/)
 
 
