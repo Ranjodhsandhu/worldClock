@@ -1,4 +1,6 @@
 import React,{Component} from 'react';
+import WebWorker from '../Util/workerSetup';
+import worker from '../Util/worker';
 import { setDriftlessInterval, clearDriftless} from 'driftless';
 
 // This clock accepts the time from time zone and runs the clock
@@ -16,6 +18,7 @@ class AnalogClock extends Component {
             rotateHours:`rotate(0deg)`,
             rotateMins:`rotate(0deg)`,
             rotateSeconds:`rotate(0deg)`,
+            msg1:'clock 1'
         }
     }
     // here first check if there is any difference in state and props received
@@ -25,6 +28,7 @@ class AnalogClock extends Component {
         }
     }
     componentDidMount() {
+        this.clock = new WebWorker(worker);
         this.setDate();
         // run the clock to update every second
         // driftlessInterval make the time lost by drift caused by interval call
@@ -32,10 +36,21 @@ class AnalogClock extends Component {
             this.updateTime();
         }, 
         1000);
+
+        // updating the clock time using the web worker utility...to be continued...
+
+        // this.updateClock(this.state.seconds);
     }
     // clear the clock Interval when clock is unmounted
     componentWillUnmount(){
         clearDriftless(this.timeId);
+    }
+    
+    updateClock = (time)=>{
+        this.clock.postMessage(time);
+        this.clock.addEventListener('message', event => {
+            console.log(event.data);
+        });
     }
 
     // This method gets called after props updation 
@@ -54,7 +69,7 @@ class AnalogClock extends Component {
                 seconds: date.getSeconds(),
                 mins: date.getMinutes(),
                 hours: date.getHours(),
-            })
+            });
         }
     }
 
@@ -109,6 +124,7 @@ class AnalogClock extends Component {
         if (propZoneName === undefined) {
             zoneName = 'Local Time';
         } else if (propZoneName.length >= 10 && (/[_]/).test(propZoneName)) {
+            // get zone name from the long name by splitting the string and combining the first characters
             zoneName = propZoneName.split('_')[0].charAt(0).toUpperCase() 
                     + propZoneName.split('_')[1].charAt(0).toUpperCase();
             if(propZoneName.split('_')[2]){
