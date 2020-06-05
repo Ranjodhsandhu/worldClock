@@ -314,6 +314,7 @@ input.search {
   box-shadow: 
     0 0 7px rgba(0, 0, 0, 0.1), 
     inset 0 0 1px rgba(0, 0, 0, 0.2);
+  transition:all 0.3s linear;
 }
 input.search:hover,
 input.search:focus
@@ -342,7 +343,7 @@ input.search:focus
   background: black;
   font-size:1.2rem;
   list-style: none;
-  border-bottom: 1px solid #C8C8C8;
+  border-bottom: 4px solid #C8C8C8;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.14);
   margin: 0;
   padding: 20px;
@@ -351,6 +352,7 @@ input.search:focus
   justify-content: flex-start;
   text-transform: capitalize;
   z-index:20;
+  transition:border-bottom 0.3s linear;
 }
 .suggestions li:nth-child(even) {
   background: linear-gradient(to bottom,  #ffffff 0%,#EEEEEE 100%);
@@ -359,6 +361,11 @@ input.search:focus
 .suggestions li:nth-child(odd) {
   background: linear-gradient(to top,  #ffffff 0%,#EFEFEF 100%);
 }
+.suggestions li:hover{
+  border-bottom: 4px solid hsl(205,100%,50%);
+  cursor: pointer;
+}
+
 .clear-input{
   position:absolute;
   right:0.5rem;
