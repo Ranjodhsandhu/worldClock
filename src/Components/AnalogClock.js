@@ -18,7 +18,6 @@ class AnalogClock extends Component {
             rotateHours:`rotate(0deg)`,
             rotateMins:`rotate(0deg)`,
             rotateSeconds:`rotate(0deg)`,
-            msg1:'clock 1'
         }
     }
     // here first check if there is any difference in state and props received
@@ -31,12 +30,12 @@ class AnalogClock extends Component {
         this.clock = new WebWorker(worker);
         this.setDate();
         // run the clock to update every second
-        // driftlessInterval make the time lost by drift caused by interval call
+        // drift less Interval make the time lost by drift caused by interval call
         this.timeId = setDriftlessInterval(()=>{
             this.updateTime();
         }, 
         1000);
-        this.updateClock(this.state.seconds,this.state.mins,this.state.hours);
+        this.updateClock();
     }
     // clear the clock Interval when clock is unmounted
     componentWillUnmount(){
@@ -44,15 +43,25 @@ class AnalogClock extends Component {
         this.clock.terminate();
     }
     
-    updateClock = (seconds,mins,hours)=>{
-        this.clock.postMessage(seconds+"_"+mins+"_"+hours);
+    updateClock = ()=>{
+        this.clock.postMessage(this.state.seconds);
         this.clock.addEventListener('message', event => {
-            let s = event.data.split("_")[0];
-            let m = event.data.split("_")[1];
-            let h = event.data.split("_")[2];
-            console.log(s,m,h);
+            let s = event.data;
+            let m = this.state.mins;
+            let h = this.state.hours;
+
+            if (s >= 60) {
+                m++;
+                s = 0;
+            }
+            if (m >= 60) {
+                h++;
+                m = 0;
+            }
+            if (h >= 24) h = 0;
+
             this.setState({
-                seconds:s,
+                seconds: s,
                 mins: m,
                 hours: h,
             });
@@ -85,27 +94,24 @@ class AnalogClock extends Component {
         const sDegrees = ((this.state.seconds / 60) * 360);
         const mDegrees = ((this.state.mins / 60) * 360) + ((this.state.seconds / 60) * 6);
         const hDegrees = ((this.state.hours / 12) * 360) + ((this.state.mins / 60) * 30);
+        let s = this.state.seconds;
+        let m = this.state.mins;
+        let h = this.state.hours;
+        s++;
+        if (s >= 60) {
+            m++;
+            s = 0;
+        }
+        if (m >= 60) {
+            h++;
+            m = 0;
+        }
+        if (h >= 24) h = 0;
 
-        // let s=this.state.seconds,
-        //     m=this.state.mins,
-        //     h=this.state.hours;
-
-        // s = s + 1;
-        // if(s >= 60){
-        //     m = this.state.mins + 1; 
-        //     s = 0;
-        // }
-        
-        // if(m >= 60){
-        //     h = this.state.hours + 1;
-        //     m = 0;
-        // }
-        // if( h >= 24 )h = 0;
-        
         this.setState({
-            // seconds:s,
-            // mins:m,
-            // hours:h,
+            seconds: s,
+            mins: m,
+            hours: h,
             rotateHours: `rotate(${hDegrees}deg)`,
             rotateMins: `rotate(${mDegrees}deg)`,
             rotateSeconds: `rotate(${sDegrees}deg)`,

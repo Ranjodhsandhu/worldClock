@@ -67,9 +67,9 @@ class SelectedZones extends Component{
             for (let key in data) {
                 if(data[key] !== '' && data[key] !== undefined){
                     zoneArr.push({ zoneName: data[key], zoneId: key });
-                    
-                        setDriftlessTimeout(() => this.getTimeFromZone(data[key]), (1200 * flag++));
-                    
+
+                    setDriftlessTimeout(() => this.getTimeFromZone(data[key]), (1200 * flag++));
+
                 }
             }
             // update the zone array with sorted values and call api to get time for each zone
@@ -96,6 +96,7 @@ class SelectedZones extends Component{
         showAlertForResponse('warning', 'Are you sure?', 'Yes, delete it!').then((result) => {
             // on acceptance delete from database and state
             if (result.value) {
+
                 const copyOfZoneArray = [...this.state.zoneArray];
                 const copyOfTimeZoneArray = [...this.state.timeZoneArray];
                 const copyOfCoordinatesArray = [...this.state.coordinatesArray];
@@ -103,18 +104,22 @@ class SelectedZones extends Component{
                 const tzArray = copyOfTimeZoneArray.filter((z)=>{return z.zoneName !== zoneName});
                 const cArray = copyOfCoordinatesArray.filter(c=>{return c.zoneName !== zoneName});
                 const zArray = copyOfZoneArray.filter((z)=>{return z.zoneId !== zoneId});
-                
+
                 this.setState({
+
                     timeZoneArray: tzArray.sort(this.sortByZoneName),
                     coordinatesArray: cArray.sort(this.sortByZoneName),
                     zoneArray: zArray.sort(this.sortByZoneName),
+
                 },()=>{
+
                     // show success message on deletion
                     showAlert('success','Deleting...',3000);
                     const itemRef = firebase.database().ref(zoneId);
                     itemRef.remove();
+
                 });
-            
+
             }
         })
     }
