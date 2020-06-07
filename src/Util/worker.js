@@ -8,12 +8,11 @@ export default () => {
         setInterval(() => {
             seconds++;
             if (seconds >= 60){
-                minutes = minutes + 1; 
+                minutes++; 
                 seconds = 0;
             }
-
             if (minutes >= 60){
-                hours = hours + 1;
+                hours++;
                 minutes = 0;
             }
             if (hours >= 24) hours = 0;

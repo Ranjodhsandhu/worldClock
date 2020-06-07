@@ -47,13 +47,14 @@ class AnalogClock extends Component {
     updateClock = (seconds,mins,hours)=>{
         this.clock.postMessage(seconds+"_"+mins+"_"+hours);
         this.clock.addEventListener('message', event => {
-            // console.log(event.data);
+            let s = event.data.split("_")[0];
+            let m = event.data.split("_")[1];
+            let h = event.data.split("_")[2];
+            console.log(s,m,h);
             this.setState({
-                seconds:event.data.split("_")[0],
-
-                // To check for how to update the mins and hours from worker .... to continue
-                // mins: event.data.split("_")[1],
-                // hours: event.data.split("_")[2],
+                seconds:s,
+                mins: m,
+                hours: h,
             });
         });
     }
