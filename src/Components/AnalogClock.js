@@ -32,14 +32,14 @@ class AnalogClock extends Component {
         // run the clock to update every second
         // drift less Interval make the time lost by drift caused by interval call
         this.timeId = setDriftlessInterval(()=>{
-            this.updateTime();
+            // this.updateTime();
         }, 
         1000);
         this.updateClock();
     }
     // clear the clock Interval when clock is unmounted
     componentWillUnmount(){
-        clearDriftless(this.timeId);
+        // clearDriftless(this.timeId);
         this.clock.terminate();
     }
     
@@ -65,6 +65,7 @@ class AnalogClock extends Component {
                 mins: m,
                 hours: h,
             });
+            this.updateTime();
         });
     }
 
@@ -94,6 +95,7 @@ class AnalogClock extends Component {
         const sDegrees = ((this.state.seconds / 60) * 360);
         const mDegrees = ((this.state.mins / 60) * 360) + ((this.state.seconds / 60) * 6);
         const hDegrees = ((this.state.hours / 12) * 360) + ((this.state.mins / 60) * 30);
+
         let s = this.state.seconds;
         let m = this.state.mins;
         let h = this.state.hours;
@@ -109,9 +111,9 @@ class AnalogClock extends Component {
         if (h >= 24) h = 0;
 
         this.setState({
-            seconds: s,
-            mins: m,
-            hours: h,
+            // seconds: s,
+            // mins: m,
+            // hours: h,
             rotateHours: `rotate(${hDegrees}deg)`,
             rotateMins: `rotate(${mDegrees}deg)`,
             rotateSeconds: `rotate(${sDegrees}deg)`,
