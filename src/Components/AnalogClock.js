@@ -39,7 +39,7 @@ class AnalogClock extends Component {
     }
     // clear the clock Interval when clock is unmounted
     componentWillUnmount(){
-        // clearDriftless(this.timeId);
+        clearDriftless(this.timeId);
         this.clock.terminate();
     }
     
