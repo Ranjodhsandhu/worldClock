@@ -111,9 +111,6 @@ class AnalogClock extends Component {
         if (h >= 24) h = 0;
 
         this.setState({
-            // seconds: s,
-            // mins: m,
-            // hours: h,
             rotateHours: `rotate(${hDegrees}deg)`,
             rotateMins: `rotate(${mDegrees}deg)`,
             rotateSeconds: `rotate(${sDegrees}deg)`,
