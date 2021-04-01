@@ -11,7 +11,7 @@ function zonePromise(zoneName){
             by: 'zone',
             zone: zoneName,
             fields: 'zoneName,gmtOffset,timestamp,countryName,countryCode',
-        }   
+        }
     })
 }
 
