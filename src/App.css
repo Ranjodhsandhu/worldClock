@@ -234,7 +234,8 @@ section.clock-section{
 
 .favorite-button,
 .local-time,
-.country-name{
+.country-name,
+.reset-button{
   text-align:center;
   margin: 0.5rem auto;
 }
@@ -272,11 +273,18 @@ section.clock-section{
   border-color:rgba(255,255,255,0.1);
 }
 
-.favorite-form{
+.favorite-form,
+.reset-button{
   margin:0 auto;
   display:flex;
   justify-content: center;
   align-items: center;
+}
+.reset-button{
+  background:none;
+  border:none;
+  margin-top:0;
+  padding-top:0;
 }
 .offline{
   text-align:center;

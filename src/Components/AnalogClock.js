@@ -22,8 +22,11 @@ class AnalogClock extends Component {
     }
     // here first check if there is any difference in state and props received
     componentDidUpdate(prevProps, prevState) {
+        console.log(prevProps);
+        //console.log(prevState);
         if (this.props.timeProp.zoneName !== prevState.zone) {
             this.setDate();
+
         }
     }
     componentDidMount() {

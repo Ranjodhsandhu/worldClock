@@ -10,14 +10,15 @@ import showAlert from  './Util/showAlert';
 import zonePromise from './Util/zonePromise';
 import './App.css';
 
+const initialState = {
+  timeZone: {},
+  coordinates: '',
+  selectedZoneList: [],
+};
 class App extends Component {
   constructor(){
     super();
-    this.state = {
-      timeZone: {},
-      coordinates:'',
-      selectedZoneList:[],
-    }
+    this.state = initialState
   }
 
   // This method is to update the user selection from the search list
@@ -95,6 +96,10 @@ class App extends Component {
     }
   }
 
+  resetClock = (event)=>{
+    event.preventDefault();
+    this.setState(initialState);
+  }
   // Show content on the page
   render(){
     return (
@@ -117,6 +122,13 @@ class App extends Component {
             onClick={this.addToFavorite}
             aria-label="add to favorite">Add To Favorite</button>
           </form>
+          <button 
+            className="reset-button"
+            type="button"
+            onClick={this.resetClock}
+            aria-label="reset">
+            Reset
+          </button>
           <Offline><p className='offline'>You are offline.</p></Offline>
           <SearchTimeZone 
             userSelectionProp={this.updateUserSelection}
