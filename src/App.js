@@ -137,7 +137,7 @@ class App extends Component {
           <SelectedZones />
         </main>
         <footer>
-          <p>&copy; <a href="https://www.ranjodhsandhu.com">Ranjodh Singh</a>, 2020. Thanks for Clock Tutorial by Wesbos.</p>
+          <p>&copy; <a href="https://www.ranjodhsandhu.com">Ranjodh Singh</a>, 2020.</p>
         </footer>
       </div>
     );
